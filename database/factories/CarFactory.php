@@ -2,9 +2,14 @@
 
 namespace Database\Factories;
 
+use App\Models\CarType;
+use App\Models\City;
+use App\Models\FuelType;
+use App\Models\Maker;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
@@ -38,7 +43,7 @@ class CarFactory extends Factory
             },
             'description' => fake()->text(2000),
             'published' => fake()->optional(0.9)
-                ->dateTimeBetween('-1 mounth', '+1 day')
+                ->dateTimeBetween('-1 month', '+1 day')
         ];
     }
 }

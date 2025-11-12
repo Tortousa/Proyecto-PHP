@@ -9,9 +9,6 @@ class HomeController extends Controller
 {
     public function index() {
 
-        //Selecciona todos los coches
-        $cars = Car::get();
-
         return 'Index';
     }
 }
