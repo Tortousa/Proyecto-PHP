@@ -99,7 +99,7 @@ class DatabaseSeeder extends Seeder
                     'images'
                 )
                 ->hasFeatures(),
-                'favouritesCars'
+                'favouriteCars'
             )
             ->create();
     }

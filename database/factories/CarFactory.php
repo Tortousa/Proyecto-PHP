@@ -8,7 +8,7 @@ use App\Models\FuelType;
 use App\Models\Maker;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Model;
 use Illuminate\Support\Str;
 
 /**
@@ -25,7 +25,7 @@ class CarFactory extends Factory
     {
         return [
             'maker_id' => Maker::inRandomOrder()->first()->id,
-            'model_id' => function (array $attributes) {
+            'model_id' => function(array $attributes) {
                 return Model::where('maker_id', $attributes['maker_id'])
                     ->inRandomOrder()->first()->id;
             },
@@ -42,7 +42,7 @@ class CarFactory extends Factory
                 return User::find($attributes['user_id'])->phone;
             },
             'description' => fake()->text(2000),
-            'published' => fake()->optional(0.9)
+            'published_at' => fake()->optional(0.9)
                 ->dateTimeBetween('-1 month', '+1 day')
         ];
     }
