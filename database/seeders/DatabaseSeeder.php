@@ -24,6 +24,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call(RoleSeeder::class);
+
         CarType::factory()
             ->sequence(
                 ['name' => 'Sedan',],
@@ -85,7 +87,8 @@ class DatabaseSeeder extends Seeder
 
         User::factory()
             ->count(3)
-            ->create();
+            ->create()
+            ->each(fn(User $user) => $user->assignRole('user'));
 
         User::factory()
             ->count(2)
@@ -101,6 +104,7 @@ class DatabaseSeeder extends Seeder
                 ->hasFeatures(),
                 'favouriteCars'
             )
-            ->create();
+            ->create()
+            ->each(fn(User $user) => $user->assignRole('user'));
     }
 }
