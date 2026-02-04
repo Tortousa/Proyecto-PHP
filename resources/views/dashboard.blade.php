@@ -13,5 +13,11 @@
                 </div>
             </div>
         </div>
+        <div class="mt-4">
+            <a href="{{ route('cars.create') }}"
+               class="inline-flex items-center ml-8 px-2 py-2 bg-indigo-400 border border-transparent rounded-md font-semibold text-white uppercase tracking-widest hover:bg-indigo-700 transition ease-in-out duration-150 shadow-sm">
+                {{ __('Sell my car') }}
+            </a>
+        </div>
     </div>
 </x-app-layout>
