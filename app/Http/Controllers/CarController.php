@@ -63,6 +63,8 @@ class CarController extends Controller
 
     public function update(UpdateCarRequest $request, Car $car)
     {
+        $this->authorize('update', $car);
+
         $validated = $request->validated();
 
         $car->update($validated);

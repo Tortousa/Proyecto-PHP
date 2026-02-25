@@ -12,7 +12,7 @@ class UpdateCarRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return $this->route('car')->user_id === Auth::id();
+        return true;
     }
 
     /**
