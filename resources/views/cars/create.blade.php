@@ -14,11 +14,6 @@
                     @if ($errors->any())
                         <div class="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded">
                             <p class="font-bold">{{ __('Whoops! Something went wrong.') }}</p>
-                            <ul class="mt-2 list-disc list-inside text-sm">
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
                         </div>
                     @endif
 
@@ -28,109 +23,111 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                             {{-- Marca --}}
-                            <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('Maker') }}</label>
-                                <select name="maker_id" class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                    <option value="">{{ __('Select Maker') }}</option>
-                                    @foreach($makers as $maker)
-                                        <option value="{{ $maker->id }}" {{ old('maker_id') == $maker->id ? 'selected' : '' }}>
-                                            {{ $maker->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
+                            <x-form-select
+                                name="maker_id"
+                                label="{{ __('Maker') }}"
+                                :options="$makers"
+                                :selected="old('maker_id')"
+                                {{-- :required="true" --}}
+                            />
 
                             {{-- Modelo --}}
-                            <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('Model') }}</label>
-                                <select name="model_id" class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                    <option value="">{{ __('Select Model') }}</option>
-                                    @foreach($models as $model)
-                                        <option value="{{ $model->id }}" {{ old('model_id') == $model->id ? 'selected' : '' }}>
-                                            {{ $model->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
+                            <x-form-select
+                                name="model_id"
+                                label="{{ __('Model') }}"
+                                :options="$models"
+                                :selected="old('model_id')"
+                                    {{-- :required="true" --}}
+                            />
 
                             {{-- Ciudad --}}
-                            <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('City') }}</label>
-                                <select name="city_id" class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                    @foreach($cities as $city)
-                                        <option value="{{ $city->id }}" {{ old('city_id') == $city->id ? 'selected' : '' }}>
-                                            {{ $city->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
+                            <x-form-select
+                                name="city_id"
+                                label="{{ __('City') }}"
+                                :options="$cities"
+                                :selected="old('city_id')"
+                                    {{-- :required="true" --}}
+                            />
 
                             {{-- Tipo de Coche --}}
-                            <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('Body Type') }}</label>
-                                <select name="car_type_id" class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                    @foreach($carTypes as $type)
-                                        <option value="{{ $type->id }}" {{ old('car_type_id') == $type->id ? 'selected' : '' }}>
-                                            {{ $type->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
+                            <x-form-select
+                                name="car_type_id"
+                                label="{{ __('Body Type') }}"
+                                :options="$carTypes"
+                                :selected="old('car_type_id')"
+                                    {{-- :required="true" --}}
+                            />
 
                             {{-- Combustible --}}
-                            <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('Fuel Type') }}</label>
-                                <select name="fuel_type_id" class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                    @foreach($fuelTypes as $fuel)
-                                        <option value="{{ $fuel->id }}" {{ old('fuel_type_id') == $fuel->id ? 'selected' : '' }}>
-                                            {{ $fuel->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
+                            <x-form-select
+                                name="fuel_type_id"
+                                label="{{ __('Fuel Type') }}"
+                                :options="$fuelTypes"
+                                :selected="old('fuel_type_id')"
+                                    {{-- :required="true" --}}
+                            />
 
                             {{-- Año --}}
-                            <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('Year') }}</label>
-                                <input type="number" name="year" value="{{ old('year', 2024) }}" class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                            </div>
+                            <x-form-input
+                                name="year"
+                                label="{{ __('Year') }}"
+                                type="number"
+                                :value="old('year', 2024)"
+                                    {{-- :required="true" --}}
+                            />
 
                             {{-- Precio --}}
-                            <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('Price') }} (€)</label>
-                                <input type="number" name="price" value="{{ old('price') }}" placeholder="15000" class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                            </div>
+                            <x-form-input
+                                name="price"
+                                label="{{ __('Price') }} (€)"
+                                type="number"
+                                :value="old('price')"
+                                placeholder="15000"
+                                    {{-- :required="true" --}}
+                            />
 
                             {{-- Kilometraje --}}
-                            <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('Mileage') }} (km)</label>
-                                <input type="number" name="mileage" value="{{ old('mileage') }}" placeholder="50000" class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                            </div>
+                            <x-form-input
+                                name="mileage"
+                                label="{{ __('Mileage') }} (km)"
+                                type="number"
+                                :value="old('mileage')"
+                                placeholder="50000"
+                                    {{-- :required="true" --}}
+                            />
 
                             {{-- VIN --}}
-                            <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('VIN Number') }}</label>
-                                <input type="text" name="vin" value="{{ old('vin') }}" class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                            </div>
+                            <x-form-input
+                                name="vin"
+                                label="{{ __('VIN Number') }}"
+                                :value="old('vin')"
+                                :required="true"
+                            />
 
                             {{-- Teléfono --}}
-                            <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('Phone') }}</label>
-                                <input type="text" name="phone" value="{{ old('phone') }}" class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                            </div>
+                            <x-form-input
+                                name="phone"
+                                label="{{ __('Phone') }}"
+                                :value="old('phone')"
+                                :required="true"
+                            />
                         </div>
 
                         {{-- Dirección --}}
-                        <div class="mt-6">
-                            <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('Address') }}</label>
-                            <input type="text" name="address" value="{{ old('address') }}" class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                        </div>
+                        <x-form-input
+                            name="address"
+                            label="{{ __('Address') }}"
+                            :value="old('address')"
+                            :required="true"
+                        />
 
                         {{-- Descripción --}}
-                        <div class="mt-6">
-                            <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('Description') }} ({{ __('Optional') }})</label>
-                            <textarea name="description" rows="3" class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">{{ old('description') }}</textarea>
-                        </div>
+                        <x-form-textarea
+                            name="description"
+                            label="{{ __('Description') }} ({{ __('Optional') }})"
+                            :value="old('description')"
+                            :rows="3"
+                        />
 
                         <div class="mt-8 flex items-center gap-4">
                             <button type="submit" class="inline-flex items-center px-5 py-3 bg-indigo-500 border border-transparent rounded-md font-bold text-white uppercase tracking-widest hover:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 shadow-md">

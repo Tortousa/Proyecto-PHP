@@ -21,7 +21,7 @@
         @if($required) required @endif
         {{ $attributes->merge(['class' => 'w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200 ' . ($errors->has($name) ? 'border-red-500 bg-red-50' : 'border-gray-300')]) }}
     >
-        <option value="">{{ __('Seleccione una opción') }}</option>
+        <option value="">{{ __('Select an option') }}</option>
         @foreach($options as $option)
             <option
                 value="{{ $option->id }}"

@@ -14,11 +14,6 @@
                     @if ($errors->any())
                         <div class="mb-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded">
                             <p class="font-bold">{{ __('Whoops! Something went wrong.') }}</p>
-                            <ul class="mt-2 list-disc list-inside text-sm">
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
                         </div>
                     @endif
 
@@ -29,108 +24,109 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                             {{-- Marca --}}
-                            <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('Maker') }}</label>
-                                <select name="maker_id" class="w-full border-gray-300 rounded-md shadow-sm">
-                                    @foreach($makers as $maker)
-                                        {{-- CAMBIO 3: old('campo', $car->campo) para cargar el valor actual --}}
-                                        <option value="{{ $maker->id }}" {{ old('maker_id', $car->maker_id) == $maker->id ? 'selected' : '' }}>
-                                            {{ $maker->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
+                            <x-form-select
+                                name="maker_id"
+                                label="{{ __('Maker') }}"
+                                :options="$makers"
+                                :selected="old('maker_id', $car->maker_id)"
+                                    {{-- :required="true" --}}
+                            />
 
                             {{-- Modelo --}}
-                            <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('Model') }}</label>
-                                <select name="model_id" class="w-full border-gray-300 rounded-md shadow-sm">
-                                    @foreach($models as $model)
-                                        <option value="{{ $model->id }}" {{ old('model_id', $car->model_id) == $model->id ? 'selected' : '' }}>
-                                            {{ $model->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
+                            <x-form-select
+                                name="model_id"
+                                label="{{ __('Model') }}"
+                                :options="$models"
+                                :selected="old('model_id', $car->model_id)"
+                                    {{-- :required="true" --}}
+                            />
 
                             {{-- Ciudad --}}
-                            <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('City') }}</label>
-                                <select name="city_id" class="w-full border-gray-300 rounded-md shadow-sm">
-                                    @foreach($cities as $city)
-                                        <option value="{{ $city->id }}" {{ old('city_id', $car->city_id) == $city->id ? 'selected' : '' }}>
-                                            {{ $city->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
+                            <x-form-select
+                                name="city_id"
+                                label="{{ __('City') }}"
+                                :options="$cities"
+                                :selected="old('city_id', $car->city_id)"
+                                :required="true"
+                            />
 
                             {{-- Tipo de Coche --}}
-                            <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('Body Type') }}</label>
-                                <select name="car_type_id" class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                    @foreach($carTypes as $type)
-                                        <option value="{{ $type->id }}" {{ old('car_type_id', $car->car_type_id) == $type->id ? 'selected' : '' }}>
-                                            {{ $type->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
+                            <x-form-select
+                                name="car_type_id"
+                                label="{{ __('Body Type') }}"
+                                :options="$carTypes"
+                                :selected="old('car_type_id', $car->car_type_id)"
+                                :required="true"
+                            />
 
                             {{-- Combustible --}}
-                            <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('Fuel Type') }}</label>
-                                <select name="fuel_type_id" class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500">
-                                    @foreach($fuelTypes as $fuel)
-                                        <option value="{{ $fuel->id }}" {{ old('fuel_type_id', $car->fuel_type_id) == $fuel->id ? 'selected' : '' }}>
-                                            {{ $fuel->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
+                            <x-form-select
+                                name="fuel_type_id"
+                                label="{{ __('Fuel Type') }}"
+                                :options="$fuelTypes"
+                                :selected="old('fuel_type_id', $car->fuel_type_id)"
+                                :required="true"
+                            />
 
                             {{-- Año --}}
-                            <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('Year') }}</label>
-                                <input type="number" name="year" value="{{ old('year', $car->year) }}" class="w-full border-gray-300 rounded-md shadow-sm">
-                            </div>
+                            <x-form-input
+                                name="year"
+                                label="{{ __('Year') }}"
+                                type="number"
+                                :value="old('year', $car->year)"
+                                :required="true"
+                            />
 
                             {{-- Precio --}}
-                            <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('Price') }} (€)</label>
-                                <input type="number" name="price" value="{{ old('price', $car->price) }}" class="w-full border-gray-300 rounded-md shadow-sm">
-                            </div>
+                            <x-form-input
+                                name="price"
+                                label="{{ __('Price') }} (€)"
+                                type="number"
+                                :value="old('price', $car->price)"
+                                :required="true"
+                            />
 
                             {{-- Kilometraje --}}
-                            <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('Mileage') }}</label>
-                                <input type="number" name="mileage" value="{{ old('mileage', $car->mileage) }}" class="w-full border-gray-300 rounded-md shadow-sm">
-                            </div>
+                            <x-form-input
+                                name="mileage"
+                                label="{{ __('Mileage') }} (km)"
+                                type="number"
+                                :value="old('mileage', $car->mileage)"
+                                :required="true"
+                            />
 
                             {{-- VIN --}}
-                            <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('VIN Number') }}</label>
-                                <input type="text" name="vin" value="{{ old('vin', $car->vin) }}" class="w-full border-gray-300 rounded-md shadow-sm">
-                            </div>
+                            <x-form-input
+                                name="vin"
+                                label="{{ __('VIN Number') }}"
+                                :value="old('vin', $car->vin)"
+                                :required="true"
+                            />
 
                             {{-- Teléfono --}}
-                            <div>
-                                <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('Phone') }}</label>
-                                <input type="text" name="phone" value="{{ old('phone', $car->phone) }}" class="w-full border-gray-300 rounded-md shadow-sm">
-                            </div>
+                            <x-form-input
+                                name="phone"
+                                label="{{ __('Phone') }}"
+                                :value="old('phone', $car->phone)"
+                                :required="true"
+                            />
                         </div>
 
                         {{-- Dirección --}}
-                        <div class="mt-6">
-                            <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('Address') }}</label>
-                            <input type="text" name="address" value="{{ old('address', $car->address) }}" class="w-full border-gray-300 rounded-md shadow-sm">
-                        </div>
+                        <x-form-input
+                            name="address"
+                            label="{{ __('Address') }}"
+                            :value="old('address', $car->address)"
+                            :required="true"
+                        />
 
                         {{-- Descripción --}}
-                        <div class="mt-6">
-                            <label class="block text-sm font-bold text-gray-700 mb-2">{{ __('Description') }}</label>
-                            <textarea name="description" rows="3" class="w-full border-gray-300 rounded-md shadow-sm">{{ old('description', $car->description) }}</textarea>
-                        </div>
+                        <x-form-textarea
+                            name="description"
+                            label="{{ __('Description') }}"
+                            :value="old('description', $car->description)"
+                            :rows="3"
+                        />
 
                         <div class="mt-8 flex items-center gap-4">
                             <button type="submit" class="inline-flex items-center px-6 py-3 bg-indigo-600 border border-transparent rounded-md font-bold text-white uppercase tracking-widest hover:bg-indigo-700 shadow-md transition duration-150">
