@@ -3,15 +3,16 @@
 namespace App\Http\Requests\Car;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
-class StoreCarRequest extends FormRequest
+class UpdateCarRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return $this->route('car')->user_id === Auth::id();
     }
 
     /**
