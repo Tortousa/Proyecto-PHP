@@ -17,7 +17,7 @@
                         </div>
                     @endif
 
-                    <form action="{{ route('cars.update', $car) }}" method="POST">
+                    <form action="{{ route('cars.update', $car) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
 
@@ -128,7 +128,33 @@
                             :rows="3"
                         />
 
-                        <div class="mt-8 flex items-center gap-4">
+                        {{-- Imágenes existentes --}}
+                        @if($car->images->count() > 0)
+                            <div class="mt-4">
+                                <label class="block text-sm font-medium text-gray-700">{{ __('Current Photos') }}</label>
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-2">
+                                    @foreach($car->images->sortBy('position') as $image)
+                                        <div class="relative">
+                                            @php
+                                                $imgPath = $image->image_path;
+                                                $src = (strpos($imgPath, 'http') === 0) ? $imgPath : asset('storage/' . $imgPath);
+                                            @endphp
+                                            <img src="{{ $src }}" alt="" class="w-full h-24 object-cover rounded border" />
+                                            <span class="absolute top-1 left-1 bg-black bg-opacity-50 text-white text-xs px-2 py-1 rounded">
+                                                {{ $image->position }}
+                                            </span>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
+
+                        {{-- Agregar nuevas imágenes --}}
+                        <div class="mt-4">
+                            <label class="block text-sm font-medium text-gray-700">{{ __('Add New Photos') }} ({{ __('Optional') }})</label>
+                            <input type="file" name="images[]" accept="image/*" multiple class="mt-1 block w-full" />
+                            <p class="text-xs text-gray-500">Tipos permitidos: jpg, jpeg, png, gif, webp. Máx 5MB por imagen.</p>
+                        </div>
                             <button type="submit" class="inline-flex items-center px-6 py-3 bg-indigo-600 border border-transparent rounded-md font-bold text-white uppercase tracking-widest hover:bg-indigo-700 shadow-md transition duration-150">
                                 {{ __('Update Car') }}
                             </button>

@@ -17,7 +17,7 @@
                         </div>
                     @endif
 
-                    <form action="{{ route('cars.store') }}" method="POST">
+                    <form action="{{ route('cars.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -128,6 +128,13 @@
                             :value="old('description')"
                             :rows="3"
                         />
+
+                        {{-- Imágenes --}}
+                        <div class="mt-4">
+                            <label class="block text-sm font-medium text-gray-700">{{ __('Photos') }} ({{ __('Optional') }})</label>
+                            <input type="file" name="images[]" accept="image/*" multiple class="mt-1 block w-full" />
+                            <p class="text-xs text-gray-500">Tipos permitidos: jpg, jpeg, png, gif, webp. Máx 5MB por imagen.</p>
+                        </div>
 
                         <div class="mt-8 flex items-center gap-4">
                             <button type="submit" class="inline-flex items-center px-5 py-3 bg-indigo-500 border border-transparent rounded-md font-bold text-white uppercase tracking-widest hover:bg-indigo-700 active:bg-indigo-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 shadow-md">

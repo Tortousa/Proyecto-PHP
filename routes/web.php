@@ -18,9 +18,15 @@ Route::get('lang/{locale}', function ($locale) {
 })->name('lang.switch');
 
 Route::get('/dashboard', function () {
-    $cars = Auth::user()->cars;
+    // Mostrar anuncios genéricos (coches publicados de otros usuarios)
+    $featuredCars = \App\Models\Car::where('published_at', '!=', null)
+        ->where('user_id', '!=', Auth::id())
+        ->with(['maker', 'model', 'primaryImage', 'city'])
+        ->inRandomOrder()
+        ->limit(6)
+        ->get();
 
-    return view('dashboard', compact('cars'));
+    return view('dashboard', compact('featuredCars'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // Rutas privadas

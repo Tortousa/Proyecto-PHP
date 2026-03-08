@@ -24,6 +24,7 @@
                     <tr class="bg-gray-100">
                         <th class="border px-4 py-2">Marca</th>
                         <th class="border px-4 py-2">Modelo</th>
+                        <th class="border px-4 py-2">Foto</th>
                         <th class="border px-4 py-2">Precio</th>
                         <th class="border px-4 py-2">Acciones</th>
                     </tr>
@@ -33,6 +34,17 @@
                         <tr>
                             <td class="border px-4 py-2">{{ $car->maker->name }}</td>
                             <td class="border px-4 py-2">{{ $car->model->name }}</td>
+                            <td class="border px-4 py-2">
+                                @if($car->primaryImage)
+                                    @php
+                                        $imgPath = $car->primaryImage->image_path;
+                                        $src = (strpos($imgPath, 'http') === 0) ? $imgPath : asset('storage/' . $imgPath);
+                                    @endphp
+                                    <img src="{{ $src }}" alt="" class="w-24 h-16 object-cover rounded" />
+                                @else
+                                    <span class="text-xs text-gray-500">No image</span>
+                                @endif
+                            </td>
                             <td class="border px-4 py-2">{{ number_format($car->price, 2) }}€</td>
                             <td class="border px-4 py-2 text-center">
                                 <a href="{{ route('cars.edit', $car) }}" class="text-blue-600">Editar</a>

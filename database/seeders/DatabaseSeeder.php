@@ -106,5 +106,7 @@ class DatabaseSeeder extends Seeder
             )
             ->create()
             ->each(fn(User $user) => $user->assignRole('user'));
+
+        $this->call(CarImageSeeder::class);
     }
 }

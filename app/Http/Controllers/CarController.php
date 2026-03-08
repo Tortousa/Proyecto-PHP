@@ -19,7 +19,7 @@ class CarController extends Controller
     {
         $this->authorize('viewAny', Car::class);
 
-        $cars = Car::where('user_id', Auth::id())->with(['maker', 'model'])->latest()->get();
+        $cars = Car::where('user_id', Auth::id())->with(['maker', 'model', 'primaryImage'])->latest()->get();
         return view('cars.index', compact('cars'));
     }
 
@@ -45,6 +45,24 @@ class CarController extends Controller
         $car->published_at = now();
         $car->save();
 
+        // Handle uploaded images (optional)
+        if ($request->hasFile('images')) {
+            $files = $request->file('images');
+            if (!is_array($files)) {
+                $files = [$files];
+            }
+
+            foreach ($files as $file) {
+                if (!$file) continue;
+                $path = $file->store('cars', 'public');
+                $position = $car->images()->count() + 1;
+                $car->images()->create([
+                    'image_path' => $path,
+                    'position' => $position,
+                ]);
+            }
+        }
+
         return redirect()->route('cars.index')->with('success', __('Coche creado con éxito'));
     }
 
@@ -68,6 +86,24 @@ class CarController extends Controller
         $validated = $request->validated();
 
         $car->update($validated);
+
+        // Allow adding new images on update
+        if ($request->hasFile('images')) {
+            $files = $request->file('images');
+            if (!is_array($files)) {
+                $files = [$files];
+            }
+
+            foreach ($files as $file) {
+                if (!$file) continue;
+                $path = $file->store('cars', 'public');
+                $position = $car->images()->count() + 1;
+                $car->images()->create([
+                    'image_path' => $path,
+                    'position' => $position,
+                ]);
+            }
+        }
 
         return redirect()->route('cars.index')->with('success', __('Coche actualizado con éxito'));
     }

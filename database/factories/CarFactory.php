@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\CarType;
+use App\Models\Car;
 use App\Models\City;
 use App\Models\FuelType;
 use App\Models\Maker;
@@ -43,5 +44,15 @@ class CarFactory extends Factory
             'published_at' => fake()->optional(0.9)
                 ->dateTimeBetween('-1 month', '+1 day')
         ];
+    }
+
+    public function configure()
+    {
+        return $this->afterCreating(function (Car $car) {
+            $car->images()->create([
+                'image_path' => $this->faker->imageUrl(),
+                'position' => 1,
+            ]);
+        });
     }
 }

@@ -34,6 +34,8 @@ class StoreCarRequest extends FormRequest
             'phone'      => ['required', 'string', 'max:45'],
             'address'    => ['required', 'string', 'max:255'],
             'description'=> ['nullable', 'string'],
+            'images' => ['nullable', 'array'],
+            'images.*' => ['image', 'mimes:jpg,jpeg,png,gif,webp', 'max:5120'],
         ];
     }
 }
