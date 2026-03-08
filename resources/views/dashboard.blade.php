@@ -77,6 +77,32 @@
 
             </div>
             </div>
+
+            <!-- API Integration Info Section -->
+            <div class="mt-6 bg-blue-50 border border-blue-200 rounded-lg shadow-sm overflow-hidden">
+                <div class="p-6">
+                    <div class="flex items-start gap-4">
+                        <div class="flex-shrink-0">
+                            <svg class="h-6 w-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zm-11-1a1 1 0 11-2 0 1 1 0 012 0z" clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-bold text-blue-900 mb-2">API Documentation Available</h4>
+                            <p class="text-sm text-blue-700 mb-3">
+                                This application includes a complete REST API with 2 fully functional CRUDs:
+                            </p>
+                            <ul class="text-sm text-blue-700 space-y-1 mb-3">
+                                <li>✅ <strong>CRUD 1 - Cars (Public):</strong> GET /api/cars - List and retrieve published cars</li>
+                                <li>✅ <strong>CRUD 2 - Car Images (Authenticated):</strong> GET, POST, PUT, DELETE /api/car-images - Manage your car images with Laravel Sanctum</li>
+                            </ul>
+                            <p class="text-xs text-blue-600">
+                                📖 See <code class="bg-blue-100 px-2 py-1 rounded">API_DOCUMENTATION.md</code> for complete endpoint reference
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </x-app-layout>
