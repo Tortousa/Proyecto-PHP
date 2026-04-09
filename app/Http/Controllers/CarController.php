@@ -19,7 +19,12 @@ class CarController extends Controller
     {
         $this->authorize('viewAny', Car::class);
 
-        $cars = Car::where('user_id', Auth::id())->with(['maker', 'model', 'primaryImage'])->latest()->get();
+        if (Auth::user()->hasRole('admin')) {
+            $cars = Car::with(['maker', 'model', 'primaryImage'])->latest()->get();
+        } else {
+            $cars = Car::where('user_id', Auth::id())->with(['maker', 'model', 'primaryImage'])->latest()->get();
+        }
+
         return view('cars.index', compact('cars'));
     }
 
@@ -34,6 +39,13 @@ class CarController extends Controller
         $cities = City::all();
 
         return view('cars.create', compact('makers', 'models', 'carTypes', 'fuelTypes', 'cities'));
+    }
+
+    public function show(Car $car)
+    {
+        $this->authorize('view', $car);
+
+        return view('cars.show', compact('car'));
     }
 
     public function store(StoreCarRequest $request)
