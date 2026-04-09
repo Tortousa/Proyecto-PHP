@@ -14,6 +14,7 @@ use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -106,6 +107,24 @@ class DatabaseSeeder extends Seeder
             )
             ->create()
             ->each(fn(User $user) => $user->assignRole('user'));
+
+        // Crear usuario admin fijo
+        User::updateOrCreate(
+            ['email' => 'admin@example.com'],
+            [
+                'name' => 'Admin User',
+                'password' => Hash::make('password'),
+            ]
+        )->assignRole('admin');
+
+        // Crear usuario normal para pruebas
+        User::updateOrCreate(
+            ['email' => 'test@example.com'],
+            [
+                'name' => 'Test User',
+                'password' => Hash::make('password'),
+            ]
+        )->assignRole('user');
 
         $this->call(CarImageSeeder::class);
     }
