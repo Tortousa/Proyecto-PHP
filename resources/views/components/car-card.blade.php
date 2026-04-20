@@ -1,4 +1,4 @@
-@props(['car'])
+@props(['car', 'manage' => false])
 
 <div class="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow">
     <div class="aspect-w-16 aspect-h-9 bg-gray-200">
@@ -38,10 +38,19 @@
             {{ Str::limit($car->description ?? __('No description available.'), 100) }}
         </p>
 
-        @if(isset($showLink) && $showLink)
-            <a href="{{ route('cars.show', $car) }}" class="mt-4 inline-block text-indigo-600 hover:text-indigo-800 font-medium">
-                {{ __('View Details') }}
-            </a>
+        @if($manage)
+            <div class="mt-4 flex flex-col gap-2">
+                <a href="{{ route('cars.edit', $car) }}" class="inline-flex justify-center items-center rounded-md border border-indigo-600 bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-700 hover:bg-indigo-100">
+                    {{ __('Editar') }}
+                </a>
+                <form action="{{ route('cars.destroy', $car) }}" method="POST" class="inline-flex">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="inline-flex justify-center items-center rounded-md border border-red-600 bg-red-50 px-3 py-2 text-sm font-semibold text-red-700 hover:bg-red-100" onclick="return confirm('{{ __('¿Seguro que deseas eliminar este coche?') }}')">
+                        {{ __('Borrar') }}
+                    </button>
+                </form>
+            </div>
         @endif
     </div>
 </div>
