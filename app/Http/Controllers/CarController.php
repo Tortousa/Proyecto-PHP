@@ -15,15 +15,35 @@ use Illuminate\Support\Facades\Auth;
 
 class CarController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $this->authorize('viewAny', Car::class);
 
-        if (Auth::user()->hasRole('admin')) {
-            $cars = Car::with(['maker', 'model', 'primaryImage'])->latest()->get();
-        } else {
-            $cars = Car::where('user_id', Auth::id())->with(['maker', 'model', 'primaryImage'])->latest()->get();
+        // Empezamos la consulta, pero NO la ejecutamos todavía
+        $query = Car::query();
+
+        // Aplicamos la restricción por usuario si no es admin
+        if (!Auth::user()->hasRole('admin')) {
+            $query->where('user_id', Auth::id());
         }
+
+        // Aplicamos los scopes solo si el parámetro existe en la URL
+        if ($request->filled('maker')) {
+            $query->byMaker($request->maker);
+        }
+
+        if ($request->filled('min_price') && $request->filled('max_price')) {
+            $query->priceBetween($request->min_price, $request->max_price);
+        }
+
+        if ($request->filled('fuel_type')) {
+            $query->ofFuelType($request->fuel_type);
+        }
+
+        // Al final, ejecutamos la consulta con las relaciones y paginación
+        $cars = $query->with(['maker', 'model', 'primaryImage'])
+                      ->latest()
+                      ->paginate(15); // Requisito extra: ¡Paginación!
 
         return view('cars.index', compact('cars'));
     }
