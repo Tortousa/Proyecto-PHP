@@ -22,12 +22,10 @@ class CarController extends Controller
         // Empezamos la consulta, pero NO la ejecutamos todavía
         $query = Car::query();
 
-        // Aplicamos la restricción por usuario si no es admin
         if (!Auth::user()->hasRole('admin')) {
             $query->where('user_id', Auth::id());
         }
 
-        // Aplicamos los scopes solo si el parámetro existe en la URL
         if ($request->filled('maker')) {
             $query->byMaker($request->maker);
         }
@@ -40,10 +38,9 @@ class CarController extends Controller
             $query->ofFuelType($request->fuel_type);
         }
 
-        // Al final, ejecutamos la consulta con las relaciones y paginación
         $cars = $query->with(['maker', 'model', 'primaryImage'])
                       ->latest()
-                      ->paginate(15); // Requisito extra: ¡Paginación!
+                      ->paginate(15);
 
         return view('cars.index', compact('cars'));
     }
@@ -77,7 +74,6 @@ class CarController extends Controller
         $car->published_at = now();
         $car->save();
 
-        // Handle uploaded images (optional)
         if ($request->hasFile('images')) {
             $files = $request->file('images');
             if (!is_array($files)) {
@@ -119,7 +115,6 @@ class CarController extends Controller
 
         $car->update($validated);
 
-        // Allow adding new images on update
         if ($request->hasFile('images')) {
             $files = $request->file('images');
             if (!is_array($files)) {

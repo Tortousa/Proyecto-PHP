@@ -17,14 +17,27 @@ Route::get('lang/{locale}', function ($locale) {
     return back();
 })->name('lang.switch');
 
-Route::get('/dashboard', function () {
+Route::get('/dashboard', function (\Illuminate\Http\Request $request) {
     // Mostrar anuncios genéricos (coches publicados de otros usuarios)
-    $featuredCars = \App\Models\Car::where('published_at', '!=', null)
-        ->where('user_id', '!=', Auth::id())
+    $featuredCarsQuery = \App\Models\Car::whereNotNull('published_at')
+        ->where('user_id', '!=', Auth::id());
+
+    if ($request->filled('maker')) {
+        $featuredCarsQuery->byMaker($request->maker);
+    }
+
+    if ($request->filled('min_price') && $request->filled('max_price')) {
+        $featuredCarsQuery->priceBetween($request->min_price, $request->max_price);
+    }
+
+    if ($request->filled('fuel_type')) {
+        $featuredCarsQuery->ofFuelType($request->fuel_type);
+    }
+
+    $featuredCars = $featuredCarsQuery
         ->with(['maker', 'model', 'primaryImage', 'city'])
-        ->inRandomOrder()
-        ->limit(6)
-        ->get();
+        ->latest()
+        ->paginate(6);
 
     return view('dashboard', compact('featuredCars'));
 })->middleware(['auth', 'verified'])->name('dashboard');

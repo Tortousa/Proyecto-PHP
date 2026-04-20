@@ -82,17 +82,13 @@ class Car extends Model
         return $this->belongsTo(City::class);
     }
 
-    // Scopes para filtrar anuncios
-
-    // 1. Scope Simple: Filtrar por tipo de combustible
-    // Dificultad: Baja. Es un WHERE directo.
+    // 1. Scope para filtrar por tipo de combustible
     public function scopeOfFuelType($query, $fuelTypeId)
     {
         return $query->where('fuel_type_id', $fuelTypeId);
     }
 
-    // 2. Scope Complejo: Filtrar por Marca (Relación 1:N)
-    // Dificultad: Media. Usa 'whereHas' para buscar en otra tabla.
+    // 2. Scope filtrar por Marca (Relación 1:N)
     public function scopeByMaker($query, $makerName)
     {
         return $query->whereHas('maker', function ($q) use ($makerName) {
@@ -100,8 +96,7 @@ class Car extends Model
         });
     }
 
-    // 3. Scope Complejo: Búsqueda por ubicación (Relación a través de Ciudad -> Estado)
-    // Dificultad: Alta. Filtra por una relación de la relación.
+    // 3. Scope de búsqueda por ubicación
     public function scopeInState($query, $stateId)
     {
         return $query->whereHas('city', function ($q) use ($stateId) {
