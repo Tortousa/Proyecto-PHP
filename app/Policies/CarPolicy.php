@@ -4,61 +4,48 @@ namespace App\Policies;
 
 use App\Models\Car;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
+// Controla quién puede hacer qué con los anuncios de coches.
+// Regla general: el dueño gestiona sus propios anuncios; el admin lo puede todo.
 class CarPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
+    // Cualquier usuario autenticado puede ver el listado de coches
     public function viewAny(User $user): bool
     {
         return true;
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
+    // Cualquier usuario autenticado puede ver el detalle de un coche
     public function view(User $user, Car $car): bool
     {
         return true;
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
+    // Cualquier usuario autenticado puede crear un anuncio
     public function create(User $user): bool
     {
         return true;
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
+    // Solo el dueño o el admin pueden editar un anuncio
     public function update(User $user, Car $car): bool
     {
         return $user->hasRole('admin') || $car->user_id === $user->id;
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
+    // Solo el dueño o el admin pueden eliminar (soft delete) un anuncio
     public function delete(User $user, Car $car): bool
     {
         return $user->hasRole('admin') || $car->user_id === $user->id;
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
+    // Solo el dueño o el admin pueden restaurar un anuncio borrado
     public function restore(User $user, Car $car): bool
     {
         return $user->hasRole('admin') || $car->user_id === $user->id;
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
+    // El borrado permanente es exclusivo del admin — es una acción irreversible
     public function forceDelete(User $user, Car $car): bool
     {
         return $user->hasRole('admin');

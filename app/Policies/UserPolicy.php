@@ -3,61 +3,48 @@
 namespace App\Policies;
 
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
+// Controla quién puede gestionar cuentas de usuario.
+// Regla general: el admin gestiona a todos; un usuario solo puede ver/editar/borrar la suya.
 class UserPolicy
 {
-    /**
-     * Determine whether the user can view any models.
-     */
+    // Solo el admin puede ver la lista completa de usuarios
     public function viewAny(User $user): bool
     {
         return $user->hasRole('admin');
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
+    // El admin puede ver cualquier perfil; un usuario solo puede ver el suyo
     public function view(User $user, User $model): bool
     {
         return $user->hasRole('admin') || $user->id === $model->id;
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
+    // Solo el admin puede crear usuarios desde el panel (el registro normal usa su propio flujo)
     public function create(User $user): bool
     {
         return $user->hasRole('admin');
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
+    // El admin puede editar cualquier cuenta; un usuario solo puede editar la suya
     public function update(User $user, User $model): bool
     {
         return $user->hasRole('admin') || $user->id === $model->id;
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
+    // El admin puede borrar cualquier cuenta; un usuario puede borrar la suya propia
     public function delete(User $user, User $model): bool
     {
-        return $user->hasRole('admin');
+        return $user->hasRole('admin') || $user->id === $model->id;
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
+    // No permitimos restaurar cuentas borradas — si se borra, es definitivo para usuarios
     public function restore(User $user, User $model): bool
     {
         return false;
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
+    // El borrado permanente de usuarios no está habilitado en ningún caso
     public function forceDelete(User $user, User $model): bool
     {
         return false;

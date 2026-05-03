@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasApiTokens;
 
     protected $fillable = [
         'name',
@@ -66,6 +67,10 @@ class User extends Authenticatable
 
     public function favouriteCars(): BelongsToMany
     {
-        return $this->belongsToMany(Car::class, 'favourite_cars');
+        // withPivot() le dice a Laravel que exponga las columnas especiales de la tabla pivote.
+        // Sin esto, solo tendríamos car_id y user_id — no podríamos leer notes ni added_at.
+        return $this->belongsToMany(Car::class, 'favourite_cars')
+            ->withPivot('notes', 'added_at')
+            ->orderByPivot('added_at', 'desc');
     }
 }
