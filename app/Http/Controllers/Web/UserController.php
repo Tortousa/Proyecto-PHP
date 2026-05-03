@@ -56,7 +56,7 @@ class UserController extends Controller
 
         $user->save();
 
-        return redirect()->route('users.show', $user)->with('status', 'user-updated');
+        return redirect()->route('admin.users.show', $user)->with('status', 'user-updated');
     }
 
     // Elimina el usuario
@@ -66,7 +66,7 @@ class UserController extends Controller
 
         $user->delete();
 
-        return redirect()->route('users.index')->with('status', 'user-deleted');
+        return redirect()->route('admin.users.index')->with('status', 'user-deleted');
     }
 }
 

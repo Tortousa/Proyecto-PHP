@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers\Web\Auth;
 
+use App\Events\UserRegistered;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\RedirectResponse; //cambio del request a uno personalizado
-// use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
@@ -37,9 +35,8 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        $user->assignRole('user'); //rol por defecto
-
-        event(new Registered($user));
+        // Disparamos nuestro evento para que el listener envíe el email de bienvenida
+        UserRegistered::dispatch($user);
 
         Auth::login($user);
 

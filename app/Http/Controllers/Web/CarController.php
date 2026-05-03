@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
-
 use App\Models\Car;
 use App\Models\Maker;
 use App\Models\CarType;
@@ -15,13 +14,17 @@ use App\Http\Requests\Car\UpdateCarRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+// CRUD web de anuncios de coches (sección MyCars).
+// Los permisos se controlan a través de CarPolicy — el dueño gestiona sus propios anuncios
+// y el admin puede gestionar todos.
 class CarController extends Controller
 {
+    // Lista los coches del usuario autenticado con filtros opcionales.
+    // El admin ve todos; un usuario normal solo ve los suyos.
     public function index(Request $request)
     {
         $this->authorize('viewAny', Car::class);
 
-        // Empezamos la consulta, pero NO la ejecutamos todavía
         $query = Car::query();
 
         if (!Auth::user()->hasRole('admin')) {
@@ -47,19 +50,21 @@ class CarController extends Controller
         return view('cars.index', compact('cars'));
     }
 
+    // Formulario de creación — cargamos los selectores del formulario
     public function create()
     {
         $this->authorize('create', Car::class);
 
-        $makers = Maker::all();
-        $models = CarModel::all();
-        $carTypes = CarType::all();
+        $makers    = Maker::all();
+        $models    = CarModel::all();
+        $carTypes  = CarType::all();
         $fuelTypes = FuelType::all();
-        $cities = City::all();
+        $cities    = City::all();
 
         return view('cars.create', compact('makers', 'models', 'carTypes', 'fuelTypes', 'cities'));
     }
 
+    // Detalle de un coche — cualquier usuario autenticado puede ver cualquier anuncio
     public function show(Car $car)
     {
         $this->authorize('view', $car);
@@ -67,12 +72,11 @@ class CarController extends Controller
         return view('cars.show', compact('car'));
     }
 
+    // Guarda el nuevo coche y procesa las imágenes si se han adjuntado
     public function store(StoreCarRequest $request)
     {
-        $validated = $request->validated();
-
-        $car = new Car($validated);
-        $car->user_id = Auth::id();
+        $car            = new Car($request->validated());
+        $car->user_id   = Auth::id();
         $car->published_at = now();
         $car->save();
 
@@ -84,11 +88,11 @@ class CarController extends Controller
 
             foreach ($files as $file) {
                 if (!$file) continue;
-                $path = $file->store('cars', 'public');
+                $path     = $file->store('cars', 'public');
                 $position = $car->images()->count() + 1;
                 $car->images()->create([
                     'image_path' => $path,
-                    'position' => $position,
+                    'position'   => $position,
                 ]);
             }
         }
@@ -96,26 +100,26 @@ class CarController extends Controller
         return redirect()->route('cars.index')->with('success', __('Coche creado con éxito'));
     }
 
+    // Formulario de edición — cargamos los modelos del fabricante seleccionado
     public function edit(Car $car)
     {
         $this->authorize('update', $car);
 
-        $makers = Maker::all();
-        $models = CarModel::where('maker_id', $car->maker_id)->get();
-        $carTypes = CarType::all();
+        $makers    = Maker::all();
+        $models    = CarModel::where('maker_id', $car->maker_id)->get();
+        $carTypes  = CarType::all();
         $fuelTypes = FuelType::all();
-        $cities = City::all();
+        $cities    = City::all();
 
         return view('cars.edit', compact('car', 'makers', 'models', 'carTypes', 'fuelTypes', 'cities'));
     }
 
+    // Actualiza los datos y añade nuevas imágenes si se han subido
     public function update(UpdateCarRequest $request, Car $car)
     {
         $this->authorize('update', $car);
 
-        $validated = $request->validated();
-
-        $car->update($validated);
+        $car->update($request->validated());
 
         if ($request->hasFile('images')) {
             $files = $request->file('images');
@@ -125,11 +129,11 @@ class CarController extends Controller
 
             foreach ($files as $file) {
                 if (!$file) continue;
-                $path = $file->store('cars', 'public');
+                $path     = $file->store('cars', 'public');
                 $position = $car->images()->count() + 1;
                 $car->images()->create([
                     'image_path' => $path,
-                    'position' => $position,
+                    'position'   => $position,
                 ]);
             }
         }
@@ -137,12 +141,13 @@ class CarController extends Controller
         return redirect()->route('cars.index')->with('success', __('Coche actualizado con éxito'));
     }
 
+    // Soft delete — el registro permanece en BD por si el admin necesita recuperarlo
     public function destroy(Car $car)
     {
         $this->authorize('delete', $car);
 
         $car->delete();
+
         return redirect()->route('cars.index')->with('success', __('Coche eliminado'));
     }
 }
-
