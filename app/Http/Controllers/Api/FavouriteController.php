@@ -8,7 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 // Controlador para gestionar los favoritos del usuario autenticado.
-// Usa la tabla pivote favourite_cars que tiene columnas especiales:
+// Usa la tabla pivote favourite_cars con columnas:
 // - notes: nota personal del usuario sobre ese coche
 // - added_at: fecha en que lo añadió a favoritos
 class FavouriteController extends Controller
@@ -33,8 +33,7 @@ class FavouriteController extends Controller
      */
     public function toggle(Request $request, Car $car): JsonResponse
     {
-        $user = $request->user();
-
+        $user   = $request->user();
         $exists = $user->favouriteCars()->where('car_id', $car->id)->exists();
 
         if ($exists) {

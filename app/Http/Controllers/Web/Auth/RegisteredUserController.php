@@ -13,29 +13,23 @@ use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
-    /**
-     * Display the registration view.
-     */
+    // Muestra el formulario de registro
     public function create(): View
     {
         return view('auth.register');
     }
 
-    /**
-     * Handle an incoming registration request.
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
+    // Crea la cuenta, dispara el evento de bienvenida y hace login automático
     public function store(RegisterRequest $request): RedirectResponse
     {
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone,
+            'name'     => $request->name,
+            'email'    => $request->email,
+            'phone'    => $request->phone,
             'password' => Hash::make($request->password),
         ]);
 
-        // Disparamos nuestro evento para que el listener envíe el email de bienvenida
+        // El evento dispara SendWelcomeMail → SendWelcomeEmailJob (cola)
         UserRegistered::dispatch($user);
 
         Auth::login($user);
@@ -43,4 +37,3 @@ class RegisteredUserController extends Controller
         return redirect(route('dashboard', absolute: false));
     }
 }
-

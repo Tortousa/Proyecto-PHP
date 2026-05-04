@@ -4,13 +4,14 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\Car;
-use App\Models\Maker;
 use App\Models\CarType;
-use App\Models\FuelType;
 use App\Models\City;
+use App\Models\FuelType;
+use App\Models\Maker;
 use App\Models\Model as CarModel;
 use App\Http\Requests\Car\StoreCarRequest;
 use App\Http\Requests\Car\UpdateCarRequest;
+use App\Services\CarImageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,6 +20,7 @@ use Illuminate\Support\Facades\Auth;
 // y el admin puede gestionar todos.
 class CarController extends Controller
 {
+    public function __construct(private CarImageService $imageService) {}
     // Lista los coches del usuario autenticado con filtros opcionales.
     // El admin ve todos; un usuario normal solo ve los suyos.
     public function index(Request $request)
@@ -81,20 +83,7 @@ class CarController extends Controller
         $car->save();
 
         if ($request->hasFile('images')) {
-            $files = $request->file('images');
-            if (!is_array($files)) {
-                $files = [$files];
-            }
-
-            foreach ($files as $file) {
-                if (!$file) continue;
-                $path     = $file->store('cars', 'public');
-                $position = $car->images()->count() + 1;
-                $car->images()->create([
-                    'image_path' => $path,
-                    'position'   => $position,
-                ]);
-            }
+            $this->imageService->save($car, (array) $request->file('images'));
         }
 
         return redirect()->route('cars.index')->with('success', __('Coche creado con éxito'));
@@ -122,20 +111,7 @@ class CarController extends Controller
         $car->update($request->validated());
 
         if ($request->hasFile('images')) {
-            $files = $request->file('images');
-            if (!is_array($files)) {
-                $files = [$files];
-            }
-
-            foreach ($files as $file) {
-                if (!$file) continue;
-                $path     = $file->store('cars', 'public');
-                $position = $car->images()->count() + 1;
-                $car->images()->create([
-                    'image_path' => $path,
-                    'position'   => $position,
-                ]);
-            }
+            $this->imageService->save($car, (array) $request->file('images'));
         }
 
         return redirect()->route('cars.index')->with('success', __('Coche actualizado con éxito'));
@@ -150,4 +126,6 @@ class CarController extends Controller
 
         return redirect()->route('cars.index')->with('success', __('Coche eliminado'));
     }
+
+
 }

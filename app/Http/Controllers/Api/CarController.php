@@ -9,12 +9,15 @@ use App\Http\Requests\Car\UpdateCarRequest;
 use App\Http\Resources\CarResource;
 use App\Http\Resources\CarSummaryResource;
 use App\Models\Car;
+use App\Services\CarImageService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+// API de coches: listado público con filtros, detalle, y CRUD protegido con Sanctum.
 class CarController extends Controller
 {
+    public function __construct(private CarImageService $imageService) {}
     /**
      * @OA\Get(
      *     path="/cars",
@@ -52,8 +55,6 @@ class CarController extends Controller
             ->latest()
             ->paginate(15);
 
-        // Devolvemos el resource directamente para que Laravel añada
-        // el wrapper de paginación {data, links, meta}
         return CarSummaryResource::collection($cars)->response();
     }
 
@@ -110,19 +111,12 @@ class CarController extends Controller
         $car->save();
 
         if ($request->hasFile('images')) {
-            foreach ((array) $request->file('images') as $file) {
-                if (!$file) continue;
-                $path = $file->store('cars', 'public');
-                $car->images()->create([
-                    'image_path' => $path,
-                    'position'   => $car->images()->count() + 1,
-                ]);
-            }
+            $this->imageService->save($car, (array) $request->file('images'));
         }
 
         $car->load(['maker', 'model', 'carType', 'fuelType', 'city', 'images', 'owner']);
 
-        // Avisamos al dueño por email de que su anuncio ya está publicado
+        // El evento dispara NotifyCarPublished → SendCarPublishedEmailJob (cola)
         CarPublished::dispatch($car);
 
         return response()->json(new CarResource($car), 201);
@@ -147,14 +141,7 @@ class CarController extends Controller
         $car->update($request->validated());
 
         if ($request->hasFile('images')) {
-            foreach ((array) $request->file('images') as $file) {
-                if (!$file) continue;
-                $path = $file->store('cars', 'public');
-                $car->images()->create([
-                    'image_path' => $path,
-                    'position'   => $car->images()->count() + 1,
-                ]);
-            }
+            $this->imageService->save($car, (array) $request->file('images'));
         }
 
         $car->load(['maker', 'model', 'carType', 'fuelType', 'city', 'images']);

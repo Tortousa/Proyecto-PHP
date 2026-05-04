@@ -11,6 +11,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+// Controlador de autenticación para la API.
+// Gestiona registro (con email de bienvenida vía evento), login, logout y datos del usuario actual.
 class AuthController extends Controller
 {
     /**
@@ -42,7 +44,7 @@ class AuthController extends Controller
             'password' => $request->password,
         ]);
 
-        // Disparamos el evento para que se envíe el email de bienvenida
+        // El evento dispara SendWelcomeMail → SendWelcomeEmailJob (cola)
         UserRegistered::dispatch($user);
 
         $token = $user->createToken('api-token')->plainTextToken;
