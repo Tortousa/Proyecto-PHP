@@ -73,6 +73,9 @@ class CarController extends Controller
         $car->load(['maker', 'model', 'carType', 'fuelType', 'city', 'owner', 'primaryImage', 'images']);
 
         return response()->json(new CarResource($car));
+
+
+        
     }
 
     /**

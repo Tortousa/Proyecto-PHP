@@ -9,10 +9,6 @@ class CarSummaryResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
-        $imagenPrincipal = $this->primaryImage
-            ? asset('storage/' . $this->primaryImage->image_path)
-            : null;
-
         return [
             'id'      => $this->id,
             'precio'  => $this->price,
@@ -25,8 +21,8 @@ class CarSummaryResource extends JsonResource
                 'car_type' => $this->carType->name,
             ],
 
-            'ubicacion'       => $this->city->name,
-            'imagen_principal' => $imagenPrincipal,
+            'ubicacion'        => $this->city->name,
+            'imagen_principal' => $this->primaryImage?->url,
         ];
     }
 }

@@ -4,23 +4,23 @@ namespace App\Jobs;
 
 use App\Mail\CarPublishedMail;
 use App\Models\Car;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
 
-// Este job notifica al dueño del coche de que su anuncio ya está publicado.
-// Va a la cola para no bloquear la respuesta al usuario mientras se envía el email.
+// Job que notifica al vendedor cuando su anuncio queda publicado.
+// También usa ShouldQueue para ejecutarse en cola y no bloquear la petición HTTP.
 class SendCarPublishedEmailJob implements ShouldQueue
 {
-    use Queueable;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public function __construct(private Car $car) {}
+    public function __construct(public Car $car) {}
 
     public function handle(): void
     {
-        // Cargamos el dueño del coche para tener su email disponible
-        $owner = $this->car->owner;
-
-        Mail::to($owner->email)->send(new CarPublishedMail($this->car));
+        Mail::to($this->car->owner)->send(new CarPublishedMail($this->car));
     }
 }

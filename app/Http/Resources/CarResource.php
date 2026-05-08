@@ -9,11 +9,8 @@ class CarResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
-        $imagenPrincipal = $this->primaryImage
-            ? asset('storage/' . $this->primaryImage->image_path)
-            : null;
-
         return [
+            
             'id'          => $this->id,
             'price'       => $this->price,
             'year'        => $this->year,
@@ -23,6 +20,7 @@ class CarResource extends JsonResource
             'published_at'=> $this->published_at,
 
             'vehiculo' => [
+
                 'maker'     => $this->maker->name,
                 'model'     => $this->model->name,
                 'car_type'  => $this->carType->name,
@@ -35,9 +33,9 @@ class CarResource extends JsonResource
                 'city'    => $this->city->name,
             ],
 
-            'owner'          => new UserResource($this->owner),
-            'imagen_principal' => $imagenPrincipal,
-            'imagenes'       => CarImageResource::collection($this->images),
+            'owner'            => new UserResource($this->owner),
+            'imagen_principal' => $this->primaryImage?->url,
+            'imagenes'         => CarImageResource::collection($this->images),
 
             'created_at' => $this->created_at->toDateString(),
         ];

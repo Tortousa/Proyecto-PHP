@@ -30,6 +30,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/cars/{car}/favourite', [FavouriteController::class, 'toggle']);
 });
 
+
+
 // Auth
 Route::prefix('auth')->group(function () {
     Route::post('/register', [AuthController::class, 'register']);

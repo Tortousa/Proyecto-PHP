@@ -9,11 +9,9 @@ class CarImageResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
-        $url = asset('storage/' . $this->image_path);
-
         return [
             'id'       => $this->id,
-            'url'      => $url,
+            'url'      => $this->url,
             'position' => $this->position,
         ];
     }

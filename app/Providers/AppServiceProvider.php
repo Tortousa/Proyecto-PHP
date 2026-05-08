@@ -18,27 +18,19 @@ use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
-    public function register(): void
-    {
-        //
-    }
+    public function register(): void {}
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
         // Registramos qué listener escucha cada evento
         Event::listen(UserRegistered::class, SendWelcomeMail::class);
         Event::listen(CarPublished::class, NotifyCarPublished::class);
 
+        // Registramos las políticas de acceso
         Gate::policy(Car::class, CarPolicy::class);
         Gate::policy(User::class, UserPolicy::class);
 
-        // Esto inyecta $fuelTypes automáticamente SOLO en el componente de filtros
+        // Inyecta $fuelTypes automáticamente solo en el componente de filtros
         View::composer('components.car-filters', function ($view) {
             $view->with('fuelTypes', FuelType::all());
         });
