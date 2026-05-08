@@ -1,59 +1,146 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<h1 align="center">🚗 AutoMarket — Plataforma de Compraventa de Vehículos</h1>
 
 <p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+  <img src="https://img.shields.io/badge/Laravel-12-FF2D20?style=for-the-badge&logo=laravel&logoColor=white"/>
+  <img src="https://img.shields.io/badge/PHP-8.2-777BB4?style=for-the-badge&logo=php&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Livewire-4-FB70A9?style=for-the-badge&logo=livewire&logoColor=white"/>
+  <img src="https://img.shields.io/badge/Sanctum-API-4A90E2?style=for-the-badge"/>
+  <img src="https://img.shields.io/badge/Tests-102%20%E2%9C%85-brightgreen?style=for-the-badge"/>
+  <img src="https://img.shields.io/badge/Cobertura-85%25-success?style=for-the-badge"/>
 </p>
 
-## About Laravel
+<p align="center">
+  Aplicación web full-stack para publicar, buscar y gestionar anuncios de coches.<br/>
+  API REST documentada con Swagger · Autenticación con Sanctum · Panel de administración · Notificaciones por email
+</p>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## ✨ Características principales
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+| Módulo | Descripción |
+|--------|-------------|
+| 🔐 **Autenticación** | Registro/login con Laravel Breeze · verificación de email · tokens Sanctum para la API |
+| 🚘 **Gestión de coches** | CRUD completo con imágenes, características, tipo de combustible, marca y ciudad |
+| ❤️ **Favoritos** | Guarda y gestiona los anuncios que más te interesan |
+| 🛡️ **Policies** | Control de acceso por propietario y rol (admin/user) |
+| 👤 **Panel admin** | CRUD de usuarios, asignación de roles y gestión de anuncios |
+| 🌐 **API REST** | Endpoints públicos y protegidos, paginación, resources y catálogos |
+| 📬 **Notificaciones** | Emails automáticos con Events, Listeners y Jobs en cola |
+| 📄 **PDF** | Exportación de fichas de vehículos con DomPDF |
+| 🌍 **Multiidioma** | Soporte ES/EN con middleware de idioma |
+| ⚡ **Livewire** | Componentes reactivos sin recargar la página |
+| 🧪 **Tests** | 102 tests con Pest · 85% de cobertura de código |
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## 🗂️ Estructura de la API
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Endpoints públicos
 
-## Laravel Sponsors
+```
+GET  /api/cars               → Listado paginado de coches
+GET  /api/cars/{id}          → Detalle de un coche
+GET  /api/catalog/makers     → Marcas disponibles
+GET  /api/catalog/fuel-types → Tipos de combustible
+GET  /api/catalog/car-types  → Tipos de vehículo
+POST /api/auth/register      → Registro de usuario
+POST /api/auth/login         → Login → devuelve token
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Endpoints protegidos `Bearer Token`
 
-### Premium Partners
+```
+GET    /api/user/me              → Datos del usuario autenticado
+GET    /api/user/favourites      → Favoritos del usuario
+POST   /api/cars                 → Publicar anuncio
+PUT    /api/cars/{id}            → Editar anuncio propio
+DELETE /api/cars/{id}            → Eliminar anuncio propio
+POST   /api/cars/{id}/favourite  → Añadir/quitar favorito
+POST   /api/auth/logout          → Cerrar sesión (revoca token)
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+---
 
-## Contributing
+## 🏗️ Stack tecnológico
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- **Backend:** Laravel 12 · PHP 8.2
+- **Frontend:** Blade · Tailwind CSS · Livewire 4
+- **Autenticación:** Laravel Breeze + Laravel Sanctum
+- **Base de datos:** MySQL
+- **Testing:** Pest PHP · 102 tests · 85% cobertura
+- **Colas:** Laravel Jobs (emails asíncronos)
+- **PDF:** barryvdh/laravel-dompdf
+- **Docs API:** darkaonline/l5-swagger
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## ⚙️ Instalación
 
-## Security Vulnerabilities
+```bash
+# 1. Clonar el repositorio
+git clone https://github.com/Tortousa/Proyecto-PHP.git
+cd Proyecto-PHP
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# 2. Instalar dependencias
+composer install
+npm install
 
-## License
+# 3. Configurar entorno
+cp .env.example .env
+php artisan key:generate
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+# 4. Configurar base de datos en .env y ejecutar migraciones
+php artisan migrate --seed
+
+# 5. Compilar assets
+npm run build
+
+# 6. Arrancar el servidor
+php artisan serve
+```
+
+---
+
+## 🧪 Tests
+
+```bash
+# Ejecutar todos los tests
+php artisan test
+
+# Con cobertura de código
+php artisan test --coverage
+```
+
+> **102 tests · 85% de cobertura** — incluyendo tests de modelos, controladores, API, policies, jobs y eventos.
+
+---
+
+## 📁 Arquitectura
+
+```
+app/
+├── Http/
+│   ├── Controllers/
+│   │   ├── Api/          # Controladores REST (Car, Auth, User, Catalogue, Favourite)
+│   │   └── Web/          # Controladores web (Car, Admin, Profile...)
+│   ├── Requests/         # Form Requests con validación
+│   └── Resources/        # API Resources (CarResource, CarSummaryResource...)
+├── Models/               # Car, User, Maker, CarType, FuelType, City...
+├── Policies/             # CarPolicy, UserPolicy
+├── Events/               # CarPublished, UserRegistered
+├── Listeners/            # NotifyCarPublished, SendWelcomeMail
+├── Jobs/                 # SendCarPublishedEmailJob, SendWelcomeEmailJob
+├── Services/             # CarImageService, PdfService
+└── Livewire/             # Componentes reactivos
+```
+
+---
+
+## 👤 Autor
+
+**Daniel Tortosa** · 2º DAW · Desarrollo de Aplicaciones Web
+
+---
+
+<p align="center">Hecho con ❤️ y Laravel</p>
