@@ -23,7 +23,7 @@ beforeEach(function () {
 
     // Datos mínimos para crear coches
     $maker    = Maker::factory()->create();
-    $carModel = \App\Models\Model::factory()->create(['maker_id' => $maker->id]);
+    $carModel = \App\Models\CarModel::factory()->create(['maker_id' => $maker->id]);
     $carType  = CarType::factory()->create();
     $fuelType = FuelType::factory()->create();
     $state    = State::factory()->create();

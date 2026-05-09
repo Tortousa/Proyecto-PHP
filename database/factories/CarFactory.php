@@ -8,12 +8,13 @@ use App\Models\City;
 use App\Models\FuelType;
 use App\Models\Maker;
 use App\Models\User;
+use App\Services\CarImageService;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\Model;
+use App\Models\CarModel;
 use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Car>
  */
 class CarFactory extends Factory
 {
@@ -27,7 +28,7 @@ class CarFactory extends Factory
         return [
             'maker_id' => Maker::inRandomOrder()->first()->id,
             'model_id' => function(array $attributes) {
-                return Model::where('maker_id', $attributes['maker_id'])
+                return CarModel::where('maker_id', $attributes['maker_id'])
                     ->inRandomOrder()->first()->id;
             },
             'year' => fake()->year(),
@@ -49,9 +50,11 @@ class CarFactory extends Factory
     public function configure()
     {
         return $this->afterCreating(function (Car $car) {
+            // Cargamos el maker para que el servicio genere una URL con la marca real
+            $car->load('maker');
             $car->images()->create([
-                'image_path' => $this->faker->imageUrl(),
-                'position' => 1,
+                'image_path' => app(CarImageService::class)->placeholder($car),
+                'position'   => 1,
             ]);
         });
     }

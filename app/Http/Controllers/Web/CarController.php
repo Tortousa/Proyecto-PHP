@@ -8,7 +8,7 @@ use App\Models\CarType;
 use App\Models\City;
 use App\Models\FuelType;
 use App\Models\Maker;
-use App\Models\Model as CarModel;
+use App\Models\CarModel;
 use App\Http\Requests\Car\StoreCarRequest;
 use App\Http\Requests\Car\UpdateCarRequest;
 use App\Services\CarImageService;

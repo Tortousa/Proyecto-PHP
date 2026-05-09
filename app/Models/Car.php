@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\CarModel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -31,9 +32,9 @@ class Car extends Model
         'published_at',
     ];
 
-    public function features(): HasOne
+    public function features(): HasMany
     {
-        return $this->hasOne(CarFeatures::class);
+        return $this->hasMany(CarFeatures::class);
     }
 
     public function primaryImage(): HasOne
@@ -41,7 +42,7 @@ class Car extends Model
         return $this->hasOne(CarImages::class)
             ->oldestOfMany('position');
     }
-
+    
     public function images(): HasMany
     {
         return $this->hasMany(CarImages::class);
@@ -69,7 +70,7 @@ class Car extends Model
 
     public function model(): BelongsTo
     {
-        return $this->belongsTo(\App\Models\Model::class);
+        return $this->belongsTo(CarModel::class);
     }
 
     public function owner(): BelongsTo
