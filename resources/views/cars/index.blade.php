@@ -1,40 +1,46 @@
-<x-app-layout>
-    <x-slot name="header">
-        <div class="flex justify-between">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('My Cars') }}
-            </h2>
-            <a href="{{ route('cars.create') }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-bold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 shadow-sm transition">
-                {{ __('Sell my car') }}
+@extends('layouts.app')
+
+@section('title', 'Mis Coches — Segunda Marcha')
+
+@section('header')
+    <div class="flex items-center justify-between">
+        <div>
+            <h1 class="text-2xl font-bold text-white">Mis coches</h1>
+            <p class="text-gray-400 text-sm mt-0.5">Gestiona tus anuncios publicados</p>
+        </div>
+        <a href="{{ route('cars.create') }}"
+           class="px-4 py-2 bg-yellow-400 hover:bg-yellow-300 text-gray-900 text-sm font-bold rounded-lg transition">
+            + Publicar coche
+        </a>
+    </div>
+@endsection
+
+@section('content')
+
+    <x-car-filters />
+
+    @if($cars->isEmpty())
+        <div class="text-center py-24">
+            <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                </svg>
+            </div>
+            <p class="text-gray-500 font-medium text-lg">Todavía no tienes anuncios</p>
+            <a href="{{ route('cars.create') }}"
+               class="mt-4 inline-block px-6 py-2.5 bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-bold rounded-lg text-sm transition">
+                Publicar mi primer coche
             </a>
         </div>
-    </x-slot>
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-                @if(session('success'))
-                    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-                        {{ session('success') }}
-                    </div>
-                @endif
-
-                <x-car-filters />
-
-                @if($cars->isEmpty())
-                    <p class="text-center py-4">No tienes coches guardados todavía.</p>
-                @else
-                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                        @foreach($cars as $car)
-                            <x-car-card :car="$car" :manage="true" />
-                        @endforeach
-                    </div>
-
-                    <div class="mt-6">
-                        {{ $cars->appends(request()->query())->links() }}
-                    </div>
-                @endif
-            </div>
+    @else
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            @foreach($cars as $car)
+                <x-car-card :car="$car" :manage="true" />
+            @endforeach
         </div>
-    </div>
-</x-app-layout>
+        <div class="mt-8">
+            {{ $cars->appends(request()->query())->links() }}
+        </div>
+    @endif
+
+@endsection

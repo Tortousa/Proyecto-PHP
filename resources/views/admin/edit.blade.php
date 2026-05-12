@@ -1,84 +1,82 @@
 @extends('layouts.app')
 
+@section('title', 'Editar usuario — ' . $user->name)
+
 @section('header')
-    <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Edit User') }}: {{ $user->name }}
-            </h2>
-            <a href="{{ route('admin.users.show', $user) }}"
-               class="inline-flex items-center px-4 py-2 bg-gray-600 text-white text-xs font-bold uppercase rounded-md hover:bg-gray-700 transition">
-                {{ __('Back') }}
-            </a>
+    <div class="flex items-center justify-between">
+        <div>
+            <h1 class="text-2xl font-bold text-white">Editar usuario</h1>
+            <p class="text-gray-400 text-sm mt-0.5">{{ $user->name }}</p>
         </div>
+        <a href="{{ route('admin.users.show', $user) }}"
+           class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white text-sm font-semibold rounded-lg transition">
+            ← Volver
+        </a>
+    </div>
 @endsection
 
 @section('content')
-<div class="py-12">
-        <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white shadow sm:rounded-lg p-6">
 
-                @if(session('status') === 'user-updated')
-                    <div class="bg-green-50 border-l-4 border-green-400 p-4 mb-6">
-                        <p class="text-green-700 text-sm">{{ __('User updated successfully.') }}</p>
-                    </div>
-                @endif
+    <div class="max-w-2xl mx-auto">
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
 
-                <form action="{{ route('admin.users.update', $user) }}" method="POST" class="space-y-6">
-                    @csrf
-                    @method('PATCH')
+            <form action="{{ route('admin.users.update', $user) }}" method="POST" class="space-y-5">
+                @csrf @method('PATCH')
 
-                    <div>
-                        <x-input-label for="name" :value="__('Name')" />
-                        <x-text-input id="name" name="name" type="text" class="mt-1 block w-full"
-                            :value="old('name', $user->name)" required />
-                        <x-input-error :messages="$errors->get('name')" class="mt-2" />
-                    </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1.5">Nombre</label>
+                    <input type="text" name="name" value="{{ old('name', $user->name) }}" required
+                           class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent outline-none transition">
+                    @error('name') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                </div>
 
-                    <div>
-                        <x-input-label for="email" :value="__('Email')" />
-                        <x-text-input id="email" name="email" type="email" class="mt-1 block w-full"
-                            :value="old('email', $user->email)" required />
-                        <x-input-error :messages="$errors->get('email')" class="mt-2" />
-                    </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1.5">Email</label>
+                    <input type="email" name="email" value="{{ old('email', $user->email) }}" required
+                           class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent outline-none transition">
+                    @error('email') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+                </div>
 
-                    <div>
-                        <x-input-label for="phone" :value="__('Phone')" />
-                        <x-text-input id="phone" name="phone" type="text" class="mt-1 block w-full"
-                            :value="old('phone', $user->phone)" />
-                        <x-input-error :messages="$errors->get('phone')" class="mt-2" />
-                    </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1.5">Teléfono</label>
+                    <input type="text" name="phone" value="{{ old('phone', $user->phone) }}"
+                           class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent outline-none transition">
+                </div>
 
-                    <div>
-                        <x-input-label for="rol" :value="__('Role')" />
-                        <select id="rol" name="rol"
-                            class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
-                            <option value="user"  {{ old('rol', $user->rol) === 'user'  ? 'selected' : '' }}>User</option>
-                            <option value="admin" {{ old('rol', $user->rol) === 'admin' ? 'selected' : '' }}>Admin</option>
-                        </select>
-                        <x-input-error :messages="$errors->get('rol')" class="mt-2" />
-                    </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1.5">Rol</label>
+                    <select name="rol"
+                            class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent outline-none transition">
+                        <option value="user"  {{ old('rol', $user->rol) === 'user'  ? 'selected' : '' }}>Usuario</option>
+                        <option value="admin" {{ old('rol', $user->rol) === 'admin' ? 'selected' : '' }}>Administrador</option>
+                    </select>
+                </div>
 
-                    <div class="border-t pt-6">
-                        <p class="text-sm text-gray-500 mb-4">{{ __('Leave blank to keep current password.') }}</p>
-
+                <div class="border-t border-gray-100 pt-5">
+                    <p class="text-xs text-gray-400 mb-4">Deja en blanco para mantener la contraseña actual.</p>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                            <x-input-label for="password" :value="__('New Password')" />
-                            <x-text-input id="password" name="password" type="password" class="mt-1 block w-full" autocomplete="new-password" />
-                            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                            <label class="block text-sm font-semibold text-gray-700 mb-1.5">Nueva contraseña</label>
+                            <input type="password" name="password" autocomplete="new-password"
+                                   class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent outline-none transition">
                         </div>
-
-                        <div class="mt-4">
-                            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-                            <x-text-input id="password_confirmation" name="password_confirmation" type="password" class="mt-1 block w-full" />
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1.5">Confirmar contraseña</label>
+                            <input type="password" name="password_confirmation"
+                                   class="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-yellow-400 focus:border-transparent outline-none transition">
                         </div>
                     </div>
+                </div>
 
-                    <div class="flex justify-end">
-                        <x-primary-button>{{ __('Save Changes') }}</x-primary-button>
-                    </div>
-                </form>
+                <div class="pt-2">
+                    <button type="submit"
+                            class="w-full py-3 bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-black rounded-xl transition">
+                        Guardar cambios
+                    </button>
+                </div>
 
-            </div>
+            </form>
         </div>
     </div>
+
 @endsection

@@ -3,11 +3,7 @@
 <div class="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden hover:shadow-md transition-shadow">
     <div class="aspect-w-16 aspect-h-9 bg-gray-200">
         @if($car->primaryImage)
-            @php
-                $imgPath = $car->primaryImage->image_path;
-                $src = (strpos($imgPath, 'http') === 0) ? $imgPath : asset('storage/' . $imgPath);
-            @endphp
-            <img src="{{ $src }}" alt="{{ $car->maker->name }} {{ $car->model->name }}" class="w-full h-48 object-cover" />
+            <img src="{{ $car->primaryImage->url }}" alt="{{ $car->maker->name }} {{ $car->model->name }}" class="w-full h-48 object-cover" />
         @else
             <div class="w-full h-48 bg-gray-300 flex items-center justify-center">
                 <span class="text-gray-500 text-sm">{{ __('No image') }}</span>

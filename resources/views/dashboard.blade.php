@@ -1,50 +1,61 @@
-<x-app-layout>
-    <x-slot name="header">
-        <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Dashboard') }}
-            </h2>
-            <div class="flex gap-4">
-                <a href="{{ route('cars.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-600 border border-transparent rounded-md font-bold text-xs text-white uppercase tracking-widest hover:bg-gray-700 shadow-sm transition">
-                    {{ __('My Cars') }}
-                </a>
-                <a href="{{ route('cars.create') }}" class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-bold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 shadow-sm transition">
-                    {{ __('Sell my car') }}
-                </a>
-            </div>
+@extends('layouts.app')
+
+@section('title', 'Panel — Segunda Marcha')
+
+@section('header')
+    <div class="flex items-center justify-between">
+        <div>
+            <h1 class="text-2xl font-bold text-white">Panel</h1>
+            <p class="text-gray-400 text-sm mt-0.5">Coches publicados por otros usuarios</p>
         </div>
-    </x-slot>
-
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg border border-gray-200">
-            <div class="p-6 text-gray-900">
-
-                <h3 class="text-lg font-bold mb-6 text-gray-700">{{ __('Featured Cars') }}</h3>
-
-                <x-car-filters />
-
-                @if($featuredCars->isEmpty())
-                    <div class="text-center py-12">
-                        <p class="text-gray-500 mb-4">{{ __("No cars available at the moment.") }}</p>
-                        <a href="{{ route('cars.create') }}" class="text-indigo-600 font-bold hover:underline">
-                            {{ __('Be the first to sell a car') }}
-                        </a>
-                    </div>
-                @else
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        @foreach($featuredCars as $car)
-                            <x-car-card :car="$car" />
-                        @endforeach
-                    </div>
-
-                    <div class="mt-6">
-                        {{ $featuredCars->appends(request()->query())->links() }}
-                    </div>
-                @endif
-
-            </div>
-            </div>
+        <div class="flex gap-3">
+            <a href="{{ route('cars.index') }}"
+               class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white text-sm font-semibold rounded-lg transition">
+                Mis coches
+            </a>
+            <a href="{{ route('cars.create') }}"
+               class="px-4 py-2 bg-yellow-400 hover:bg-yellow-300 text-gray-900 text-sm font-bold rounded-lg transition">
+                + Publicar coche
+            </a>
         </div>
     </div>
-</x-app-layout>
+@endsection
+
+@section('content')
+
+    {{-- Filtros Blade (recarga de página) --}}
+    <x-car-filters />
+
+    @if($featuredCars->isEmpty())
+        <div class="text-center py-24">
+            <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M12 9v2m0 4h.01M5.07 19H19a2 2 0 001.75-2.96L13.75 4a2 2 0 00-3.5 0L3.25 16.04A2 2 0 005.07 19z"/>
+                </svg>
+            </div>
+            <p class="text-gray-500 font-medium text-lg">No hay coches disponibles ahora mismo</p>
+            <a href="{{ route('cars.create') }}" class="mt-4 inline-block text-yellow-500 hover:text-yellow-600 font-semibold text-sm">
+                ¡Sé el primero en publicar uno →
+            </a>
+        </div>
+    @else
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            @foreach($featuredCars as $car)
+                <x-car-card :car="$car" />
+            @endforeach
+        </div>
+        <div class="mt-8">
+            {{ $featuredCars->appends(request()->query())->links() }}
+        </div>
+    @endif
+
+    {{-- ── COMPONENTE LIVEWIRE: mis favoritos ──────────────────────────────────── --}}
+    {{-- FavouritesList permite editar la nota y eliminar favoritos en tiempo real   --}}
+    <div class="mt-12">
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+            <h2 class="text-lg font-bold text-gray-900 mb-4">Mis favoritos</h2>
+            <livewire:favourites-list />
+        </div>
+    </div>
+
+@endsection
