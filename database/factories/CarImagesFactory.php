@@ -18,10 +18,10 @@ class CarImagesFactory extends Factory
     public function definition(): array
     {
         return [
-            'image_path' => fake()->imageUrl(),
-            'position' => function (array $attributes) {
+            'image_path' => 'https://loremflickr.com/800/600/car?lock=' . fake()->numberBetween(1, 999),
+            'position'   => function (array $attributes) {
                 return Car::find($attributes['car_id'])->images()->count() + 1;
-            }
+            },
         ];
     }
 }

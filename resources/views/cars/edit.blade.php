@@ -62,35 +62,9 @@
 
             <div class="space-y-6">
 
-                {{-- Fotos actuales --}}
-                @if($car->images->count() > 0)
-                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-                        <h2 class="text-base font-bold text-gray-900 mb-3">Fotos actuales</h2>
-                        <div class="grid grid-cols-2 gap-2">
-                            @foreach($car->images->sortBy('position') as $image)
-                                @php $src = asset('storage/' . $image->image_path); @endphp
-                                <div class="relative">
-                                    <img src="{{ $src }}" alt="" class="w-full h-20 object-cover rounded-lg border border-gray-100">
-                                    <span class="absolute top-1 left-1 bg-gray-900/70 text-white text-xs px-1.5 py-0.5 rounded-full">
-                                        {{ $image->position }}
-                                    </span>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                @endif
-
-                {{-- Añadir fotos --}}
+                {{-- Gestión de imágenes (Livewire CRUD) --}}
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-                    <h2 class="text-base font-bold text-gray-900 mb-1">Añadir fotos</h2>
-                    <p class="text-xs text-gray-400 mb-3">jpg, png, webp · máx 5 MB</p>
-                    <label class="flex flex-col items-center justify-center w-full h-28 border-2 border-dashed border-gray-200 rounded-xl cursor-pointer hover:border-yellow-400 hover:bg-yellow-50 transition">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-gray-300 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4v16m8-8H4"/>
-                        </svg>
-                        <span class="text-sm text-gray-400">Subir imágenes</span>
-                        <input type="file" name="images[]" accept="image/*" multiple class="hidden">
-                    </label>
+                    <livewire:car-images :car="$car" />
                 </div>
 
                 <div class="bg-gray-900 rounded-2xl p-6">

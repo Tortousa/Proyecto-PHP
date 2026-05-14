@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Car;
 use App\Services\PdfService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 // Controlador encargado de generar y descargar los PDFs de la aplicación.
 // Delega toda la lógica de generación al PdfService — aquí solo preparamos los datos.
@@ -17,11 +18,30 @@ class PdfController extends Controller
     // Cualquier usuario puede descargarla desde el detalle del anuncio.
     public function carDetail(Car $car)
     {
-        $car->load(['maker', 'model', 'carType', 'fuelType', 'city', 'owner']);
+        $car->load(['maker', 'model', 'carType', 'fuelType', 'city', 'owner', 'primaryImage']);
+
+        $imagenBase64 = null;
+        if ($car->primaryImage) {
+            $path = $car->primaryImage->image_path;
+            try {
+                $bytes = str_starts_with($path, 'http')
+                    ? file_get_contents($path)
+                    : Storage::get($path);
+                if ($bytes) {
+                    $imagenBase64 = 'data:image/jpeg;base64,' . base64_encode($bytes);
+                }
+            } catch (\Throwable) {}
+        }
+
+        $logoBase64 = null;
+        $logoPath = public_path('images/logo.png');
+        if (file_exists($logoPath)) {
+            $logoBase64 = 'data:image/png;base64,' . base64_encode(file_get_contents($logoPath));
+        }
 
         $nombre = "{$car->maker->name}_{$car->model->name}_{$car->year}.pdf";
 
-        return $this->pdfService->download('pdfs.car-detail', compact('car'), $nombre);
+        return $this->pdfService->download('pdfs.car-detail', compact('car', 'imagenBase64', 'logoBase64'), $nombre);
     }
 
     // PDF complejo: informe general de todos los anuncios publicados.

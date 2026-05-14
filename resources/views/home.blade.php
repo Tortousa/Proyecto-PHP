@@ -8,10 +8,10 @@
     <section class="bg-gray-900 text-white py-20">
         <div class="max-w-4xl mx-auto px-4 text-center">
             <img src="{{ asset('images/logo.png') }}" alt="Segunda Marcha" class="h-28 w-auto mx-auto mb-6 drop-shadow-xl">
-            <h1 class="text-5xl font-bold mb-3">
+            <h1 class="text-3xl sm:text-5xl font-bold mb-3">
                 Compra y vende tu coche
             </h1>
-            <p class="text-gray-400 text-xl mb-10">
+            <p class="text-gray-400 text-base sm:text-xl mb-10">
                 El marketplace de coches de segunda mano más completo
             </p>
             @guest

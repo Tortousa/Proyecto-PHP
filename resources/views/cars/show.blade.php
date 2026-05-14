@@ -25,9 +25,9 @@
         <div class="lg:col-span-2 space-y-6">
 
             {{-- Imagen principal --}}
-            <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 aspect-video flex items-center justify-center">
+            <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 aspect-video min-h-48 flex items-center justify-center">
                 @if($car->primaryImage)
-                    <img src="{{ Storage::url($car->primaryImage->path) }}"
+                    <img src="{{ $car->primaryImage->url }}"
                          alt="{{ $car->maker->name }} {{ $car->model->name }}"
                          class="w-full h-full object-cover">
                 @else
@@ -111,6 +111,17 @@
                     </div>
                 @endcan
             </div>
+
+            {{-- Descargar PDF --}}
+            @auth
+            <a href="{{ route('cars.pdf', $car) }}"
+               class="flex items-center justify-center gap-2 w-full px-4 py-2.5 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-semibold rounded-2xl shadow-sm transition text-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3M3 17V7a2 2 0 012-2h6l2 2h4a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+                </svg>
+                Descargar ficha PDF
+            </a>
+            @endauth
 
             {{-- Contacto --}}
             <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">

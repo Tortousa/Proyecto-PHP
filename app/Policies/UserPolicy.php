@@ -20,12 +20,6 @@ class UserPolicy
         return $user->hasRole('admin') || $user->id === $model->id;
     }
 
-    // Solo el admin puede crear usuarios desde el panel (el registro normal usa su propio flujo)
-    public function create(User $user): bool
-    {
-        return $user->hasRole('admin');
-    }
-
     // El admin puede editar cualquier cuenta; un usuario solo puede editar la suya
     public function update(User $user, User $model): bool
     {
@@ -36,17 +30,5 @@ class UserPolicy
     public function delete(User $user, User $model): bool
     {
         return $user->hasRole('admin') || $user->id === $model->id;
-    }
-
-    // No permitimos restaurar cuentas borradas — si se borra, es definitivo para usuarios
-    public function restore(User $user, User $model): bool
-    {
-        return false;
-    }
-
-    // El borrado permanente de usuarios no está habilitado en ningún caso
-    public function forceDelete(User $user, User $model): bool
-    {
-        return false;
     }
 }

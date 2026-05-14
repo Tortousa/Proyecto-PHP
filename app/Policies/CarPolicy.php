@@ -10,19 +10,19 @@ use App\Models\User;
 class CarPolicy
 {
     // Cualquier usuario autenticado puede ver el listado de coches
-    public function viewAny(User $user): bool
+    public function viewAny(User $_user): bool
+    {
+        return true;
+    }
+
+    // Cualquier usuario autenticado puede publicar un anuncio nuevo
+    public function create(User $_user): bool
     {
         return true;
     }
 
     // Cualquier usuario autenticado puede ver el detalle de un coche
-    public function view(User $user, Car $car): bool
-    {
-        return true;
-    }
-
-    // Cualquier usuario autenticado puede crear un anuncio
-    public function create(User $user): bool
+    public function view(User $_user, Car $_car): bool
     {
         return true;
     }
@@ -33,21 +33,9 @@ class CarPolicy
         return $user->hasRole('admin') || $car->user_id === $user->id;
     }
 
-    // Solo el dueño o el admin pueden eliminar (soft delete) un anuncio
+    // Solo el dueño o el admin pueden eliminar un anuncio
     public function delete(User $user, Car $car): bool
     {
         return $user->hasRole('admin') || $car->user_id === $user->id;
-    }
-
-    // Solo el dueño o el admin pueden restaurar un anuncio borrado
-    public function restore(User $user, Car $car): bool
-    {
-        return $user->hasRole('admin') || $car->user_id === $user->id;
-    }
-
-    // El borrado permanente es exclusivo del admin — es una acción irreversible
-    public function forceDelete(User $user, Car $car): bool
-    {
-        return $user->hasRole('admin');
     }
 }

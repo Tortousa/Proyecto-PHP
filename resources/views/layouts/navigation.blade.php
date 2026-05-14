@@ -11,18 +11,18 @@
 
                 <div class="hidden sm:flex sm:items-center sm:ms-10 space-x-1">
                     <a href="{{ route('dashboard') }}"
-                       class="px-3 py-2 rounded-md text-sm font-medium transition
+                       class="px-3 py-2 rounded-md text-sm font-medium transition-all duration-200
                               {{ request()->routeIs('dashboard') ? 'bg-gray-800 text-yellow-400' : 'text-gray-300 hover:text-white hover:bg-gray-800' }}">
                         Panel
                     </a>
                     <a href="{{ route('cars.index') }}"
-                       class="px-3 py-2 rounded-md text-sm font-medium transition
+                       class="px-3 py-2 rounded-md text-sm font-medium transition-all duration-200
                               {{ request()->routeIs('cars.*') ? 'bg-gray-800 text-yellow-400' : 'text-gray-300 hover:text-white hover:bg-gray-800' }}">
                         Mis coches
                     </a>
                     @if(Auth::user()->isAdmin())
                         <a href="{{ route('admin.users.index') }}"
-                           class="px-3 py-2 rounded-md text-sm font-medium transition
+                           class="px-3 py-2 rounded-md text-sm font-medium transition-all duration-200
                                   {{ request()->routeIs('admin.*') ? 'bg-gray-800 text-yellow-400' : 'text-gray-300 hover:text-white hover:bg-gray-800' }}">
                             Admin
                         </a>
@@ -36,23 +36,23 @@
                 {{-- Selector idioma --}}
                 <div class="flex items-center gap-1">
                     <a href="{{ route('lang.switch', 'es') }}"
-                       class="px-2 py-1 text-xs rounded font-medium transition
+                       class="px-2 py-1 text-xs rounded font-medium transition-all duration-200
                               {{ app()->getLocale() === 'es' ? 'bg-yellow-400 text-gray-900' : 'text-gray-400 hover:text-white' }}">ES</a>
                     <a href="{{ route('lang.switch', 'en') }}"
-                       class="px-2 py-1 text-xs rounded font-medium transition
+                       class="px-2 py-1 text-xs rounded font-medium transition-all duration-200
                               {{ app()->getLocale() === 'en' ? 'bg-yellow-400 text-gray-900' : 'text-gray-400 hover:text-white' }}">EN</a>
                 </div>
 
                 {{-- Botón publicar --}}
                 <a href="{{ route('cars.create') }}"
-                   class="px-4 py-1.5 bg-yellow-400 hover:bg-yellow-300 text-gray-900 text-sm font-bold rounded-lg transition">
+                   class="px-4 py-1.5 bg-yellow-400 hover:bg-yellow-300 text-gray-900 text-sm font-bold rounded-lg transition-all duration-200">
                     + Publicar
                 </a>
 
                 {{-- Dropdown usuario --}}
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
-                        <button class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm text-gray-300 hover:text-white hover:bg-gray-800 transition">
+                        <button class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm text-gray-300 hover:text-white hover:bg-gray-800 transition-all duration-200">
                             <div class="w-7 h-7 rounded-full bg-yellow-400 flex items-center justify-center text-gray-900 font-bold text-xs">
                                 {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
                             </div>
@@ -78,7 +78,7 @@
 
             {{-- Hamburger móvil --}}
             <div class="flex items-center sm:hidden">
-                <button @click="open = !open" class="p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-800 transition">
+                <button @click="open = !open" class="p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-800 transition-all duration-200">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                         <path :class="{'hidden': open, 'inline-flex': !open}" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                         <path :class="{'hidden': !open, 'inline-flex': open}" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>

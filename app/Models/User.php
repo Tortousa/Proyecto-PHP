@@ -16,7 +16,6 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
-        'rol',
         'phone',
         'google_id',
         'facebook_id',
@@ -40,6 +39,10 @@ class User extends Authenticatable
     // =====================
     // Roles
     // =====================
+    public function isAdmin(): bool
+    {
+        return $this->rol === 'admin';
+    }
 
     public function hasRole(string $rol): bool
     {
@@ -51,10 +54,6 @@ class User extends Authenticatable
         return in_array($this->rol, $roles);
     }
 
-    public function isAdmin(): bool
-    {
-        return $this->rol === 'admin';
-    }
 
     // =====================
     // Relaciones

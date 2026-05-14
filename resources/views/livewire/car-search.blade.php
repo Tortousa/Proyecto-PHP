@@ -75,12 +75,22 @@
                  wire:loading.class="opacity-50">
 
                 @foreach($cars as $car)
-                    <div class="bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-200 overflow-hidden border border-gray-100 group relative">
+                    <div class="bg-white rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-200 overflow-hidden border border-gray-100 group relative">
 
-                        {{-- Botón favorito (componente Livewire anidado) --}}
+                        {{-- Botón favorito --}}
+                        @auth
                         <div class="absolute top-2 right-2 z-10">
-                            <livewire:favourite-button :car-id="$car->id" :key="'fav-'.$car->id" />
+                            <button wire:click="toggleFavourite({{ $car->id }})"
+                                    class="p-1.5 rounded-full bg-white/80 backdrop-blur-sm shadow-sm hover:scale-110 transition-all duration-200">
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     class="h-5 w-5 transition-colors {{ in_array($car->id, $favouriteIds, true) ? 'text-red-500 fill-red-500' : 'text-gray-400' }}"
+                                     viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                          d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                                </svg>
+                            </button>
                         </div>
+                        @endauth
 
                         <a href="{{ route('cars.show', $car) }}">
                             {{-- Imagen --}}

@@ -6,8 +6,8 @@
     'required' => false,
 ])
 
-<div class="mb-4">
-    <label for="{{ $name }}" class="block text-sm font-medium text-gray-700 mb-2">
+<div class="space-y-1">
+    <label for="{{ $name }}" class="block text-sm font-medium text-gray-700">
         {{ $label }}
         @if($required)
             <span class="text-red-500">*</span>
