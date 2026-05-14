@@ -75,6 +75,20 @@ test('el admin puede cambiar el rol de un usuario a admin', function () {
 
 // ── DESTROY ────────────────────────────────────────────────────────────────────
 
+test('el admin puede actualizar la contraseña de un usuario', function () {
+    $this->actingAs($this->admin)
+         ->put(route('admin.users.update', $this->user), [
+             'name'                  => $this->user->name,
+             'email'                 => $this->user->email,
+             'rol'                   => 'user',
+             'password'              => 'NuevaPassword123!',
+             'password_confirmation' => 'NuevaPassword123!',
+         ])
+         ->assertRedirect(route('admin.users.show', $this->user));
+});
+
+// ── DESTROY ────────────────────────────────────────────────────────────────────
+
 test('el admin puede eliminar un usuario', function () {
     $userToDelete = User::factory()->create(['rol' => 'user']);
 
