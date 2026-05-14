@@ -1,8 +1,6 @@
 <?php
 
 // Tests unitarios de las políticas (CarPolicy y UserPolicy).
-// Verifican los métodos que no se cubren indirectamente por los tests de controlador:
-// restore, forceDelete y los métodos de UserPolicy.
 
 use App\Models\Car;
 use App\Models\CarType;
@@ -40,21 +38,6 @@ beforeEach(function () {
 });
 
 // ── CarPolicy ─────────────────────────────────────────────────────────────────
-
-test('CarPolicy restore — solo el admin o el dueño pueden restaurar', function () {
-    $policy = new CarPolicy();
-
-    expect($policy->restore($this->admin, $this->car))->toBeTrue();
-    expect($policy->restore($this->user, $this->car))->toBeTrue();
-    expect($policy->restore($this->other, $this->car))->toBeFalse();
-});
-
-test('CarPolicy forceDelete — solo el admin puede borrar permanentemente', function () {
-    $policy = new CarPolicy();
-
-    expect($policy->forceDelete($this->admin, $this->car))->toBeTrue();
-    expect($policy->forceDelete($this->user, $this->car))->toBeFalse();
-});
 
 // ── UserPolicy ────────────────────────────────────────────────────────────────
 

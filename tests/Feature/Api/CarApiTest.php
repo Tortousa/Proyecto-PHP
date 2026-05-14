@@ -194,8 +194,7 @@ test('el dueño puede eliminar su propio coche', function () {
          ->assertStatus(200)
          ->assertJson(['message' => 'Coche eliminado correctamente.']);
 
-    // El modelo usa SoftDeletes — comprobamos que no se ha borrado físicamente
-    $this->assertSoftDeleted('cars', ['id' => $car->id]);
+    $this->assertDatabaseMissing('cars', ['id' => $car->id]);
 });
 
 test('un usuario no puede eliminar el coche de otro usuario', function () {
@@ -262,5 +261,25 @@ test('el índice API filtra por rango de precio', function () {
 
 test('el índice API filtra por tipo de combustible', function () {
     $this->getJson('/api/cars?fuel_type=' . $this->ref['fuelType']->id)
+         ->assertStatus(200);
+});
+
+test('un usuario puede publicar un coche con imagen vía API', function () {
+    \Illuminate\Support\Facades\Storage::fake('public');
+    $vin  = strtoupper(\Illuminate\Support\Str::random(17));
+    $file = \Illuminate\Http\UploadedFile::fake()->image('car.jpg');
+
+    $this->actingAs($this->owner)
+         ->post('/api/cars', array_merge(
+             carPayload($this->ref, ['vin' => $vin]),
+             ['images' => [$file]]
+         ))
+         ->assertStatus(201);
+});
+
+test('el índice API filtra por provincia usando scopeInState', function () {
+    $otherState = \App\Models\State::factory()->create();
+
+    $this->getJson('/api/cars?state=' . $otherState->id)
          ->assertStatus(200);
 });

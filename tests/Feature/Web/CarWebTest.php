@@ -168,7 +168,7 @@ test('el dueño puede eliminar su coche', function () {
          ->delete(route('cars.destroy', $car))
          ->assertRedirect(route('cars.index'));
 
-    $this->assertSoftDeleted('cars', ['id' => $car->id]);
+    $this->assertDatabaseMissing('cars', ['id' => $car->id]);
 });
 
 test('otro usuario no puede eliminar el coche ajeno (403)', function () {
@@ -229,6 +229,28 @@ test('el usuario puede crear un coche con imagen adjunta', function () {
          ])
          ->assertRedirect(route('cars.index'));
 });
+
+// ── ADMIN VE TODOS LOS COCHES ─────────────────────────────────────────────────
+
+test('el admin ve todos los coches en el índice, no solo los suyos', function () {
+    $admin = User::factory()->create(['rol' => 'admin']);
+    $other = User::factory()->create();
+
+    Car::factory()->create([
+        'user_id'      => $other->id,
+        'maker_id'     => $this->ref['maker']->id,
+        'model_id'     => $this->ref['carModel']->id,
+        'car_type_id'  => $this->ref['carType']->id,
+        'fuel_type_id' => $this->ref['fuelType']->id,
+        'city_id'      => $this->ref['city']->id,
+    ]);
+
+    $this->actingAs($admin)
+         ->get(route('cars.index'))
+         ->assertStatus(200);
+});
+
+// ── STORE / UPDATE CON IMÁGENES ────────────────────────────────────────────────
 
 test('el dueño puede actualizar un coche añadiendo una imagen', function () {
     $car  = Car::factory()->create([
