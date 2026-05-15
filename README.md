@@ -12,7 +12,7 @@
 [![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
 
 *Plataforma completa para comprar y vender vehículos de segunda mano.*  
-*Autenticación dual (web + API), componentes reactivos con Livewire y documentación OpenAPI.*
+*Autenticación dual (web + API), componentes reactivos con Livewire.*
 
 </div>
 
@@ -23,7 +23,7 @@
 - [Características](#-características)
 - [Stack tecnológico](#-stack-tecnológico)
 - [Arquitectura](#-arquitectura)
-- [Instalación](#-instalación)
+- [Cómo arrancar el proyecto](#-cómo-arrancar-el-proyecto)
 - [Variables de entorno](#-variables-de-entorno)
 - [Base de datos](#-base-de-datos)
 - [API REST](#-api-rest)
@@ -39,7 +39,7 @@
 | Módulo | Descripción |
 |--------|-------------|
 | **Autenticación Web** | Registro, login, verificación de email y recuperación de contraseña con Laravel Breeze |
-| **API REST con Sanctum** | 15+ endpoints protegidos con Bearer tokens, documentados en Swagger/OpenAPI |
+| **API REST con Sanctum** | 20+ endpoints protegidos con Bearer tokens |
 | **Buscador en tiempo real** | Filtrado de anuncios sin recargar página mediante Livewire |
 | **Favoritos** | Toggles instantáneos con notas personalizadas por vehículo |
 | **Panel de administración** | Gestión de usuarios y coches con control de roles (user / admin) |
@@ -47,7 +47,7 @@
 | **Generación de PDFs** | Ficha de vehículo y reporte global descargables con DomPDF |
 | **Eventos y colas** | Emails asíncronos al registrarse y al publicar un anuncio |
 | **Multiidioma** | Interfaz en español e inglés con selector dinámico |
-| **Cobertura de tests** | 85.58 % de líneas cubiertas con Pest (102+ tests) |
+| **Cobertura de tests** | 85.58 % de líneas cubiertas con Pest (145 tests) |
 
 ---
 
@@ -61,7 +61,6 @@
 | [PHP](https://php.net) | ^8.2 | Lenguaje |
 | [Laravel Sanctum](https://laravel.com/docs/sanctum) | ^4.3 | Autenticación API |
 | [Livewire](https://livewire.laravel.com) | ^4.3 | Componentes reactivos |
-| [L5-Swagger](https://github.com/DarkaOnLine/L5-Swagger) | ^11.0 | Documentación OpenAPI |
 | [DomPDF](https://github.com/barryvdh/laravel-dompdf) | ^3.1 | Generación de PDFs |
 | [Laravel Breeze](https://laravel.com/docs/starter-kits) | ^2.3 | Scaffolding de auth |
 | MySQL | 8+ | Base de datos principal |
@@ -101,7 +100,7 @@ app/
 │   └── Resources/             # CarResource, UserResource, CarSummaryResource...
 ├── Jobs/                      # SendWelcomeEmailJob, SendCarPublishedEmailJob
 ├── Listeners/                 # SendWelcomeMail, NotifyCarPublished
-├── Mail/                      # WelcomeMail, CarPublishedMail
+├── Mail/                      # WelcomeMail, CarPublishedMail, StatsReportMail
 ├── Models/                    # Car, User, Maker, CarModel, CarType, FuelType...
 ├── Policies/                  # CarPolicy, UserPolicy
 └── Services/                  # CarImageService, PdfService
@@ -121,53 +120,115 @@ API  ──► Sanctum token   ──► auth:sanctum         ──► Rutas /a
 
 ---
 
-## 🚀 Instalación
+## 🚀 Cómo arrancar el proyecto
 
-### Requisitos previos
+Sigue estos pasos en orden. Si en alguno falla, lee el mensaje de error antes de continuar.
 
-- PHP 8.2+
-- Composer
-- Node.js 18+ y npm
-- MySQL 8+
-
-### Pasos
+### 1. Clonar el repositorio
 
 ```bash
-# 1. Clonar el repositorio
-git clone <repo-url> segunda-marcha
+git clone https://github.com/Tortousa/Proyecto-PHP.git segunda-marcha
 cd segunda-marcha
-
-# 2. Instalar dependencias PHP
-composer install
-
-# 3. Instalar dependencias JS
-npm install
-
-# 4. Configurar entorno
-cp .env.example .env
-php artisan key:generate
-
-# 5. Crear la base de datos en MySQL
-# CREATE DATABASE laravel_coches;
-
-# 6. Ejecutar migraciones y seeders
-php artisan migrate --seed
-
-# 7. (Opcional) Crear la base de datos de tests
-# CREATE DATABASE laravel_coches_test;
-
-# 8. Arrancar el servidor
-php artisan serve    # → http://localhost:8000
-npm run dev          # → hot reload de assets
 ```
 
-> **Nota:** Si los estilos aparecen en blanco, ejecuta `npm run build` antes de servir.
+### 2. Instalar dependencias PHP
+
+```bash
+composer install
+```
+
+### 3. Instalar dependencias JavaScript
+
+```bash
+npm install
+```
+
+### 4. Crear el archivo de entorno
+
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+### 5. Configurar la base de datos
+
+Abre `.env` y ajusta estas líneas con tus credenciales de MySQL:
+
+```ini
+DB_DATABASE=laravel_coches
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+Luego crea la base de datos en MySQL (puedes usar phpMyAdmin o la terminal):
+
+```sql
+CREATE DATABASE laravel_coches;
+```
+
+### 6. Ejecutar migraciones y seeders
+
+```bash
+php artisan migrate --seed
+```
+
+Esto crea todas las tablas y las rellena con datos de prueba (marcas, modelos, ciudades, un usuario admin y varios coches de ejemplo).
+
+> **Credenciales del admin por defecto:**  
+> Email: `admin@segunda-marcha.com`  
+> Contraseña: `password`
+
+### 7. Crear el enlace de almacenamiento público
+
+```bash
+php artisan storage:link
+```
+
+Esto permite que las imágenes subidas sean accesibles desde el navegador.
+
+### 8. Compilar los assets
+
+```bash
+npm run dev
+```
+
+> Si los estilos aparecen en blanco o rotos, ejecuta `npm run build` en su lugar.
+
+### 9. Arrancar el servidor
+
+```bash
+php artisan serve
+```
+
+Abre el navegador en **http://localhost:8000** y ya está.
+
+---
+
+### Base de datos de tests (opcional)
+
+Si quieres ejecutar los tests, necesitas una segunda base de datos:
+
+```sql
+CREATE DATABASE laravel_coches_test;
+```
+
+Y asegúrate de que en `.env` tienes esto (o en `.env.testing`):
+
+```ini
+DB_TEST_DATABASE=laravel_coches_test
+```
+
+Ejecuta los tests con:
+
+```bash
+php artisan test
+```
 
 ---
 
 ## ⚙️ Variables de entorno
 
-Copia `.env.example` a `.env` y ajusta los siguientes valores clave:
+Las más importantes del archivo `.env`:
 
 ```ini
 APP_NAME="Segunda Marcha"
@@ -205,8 +266,7 @@ Car ──┬─ BelongsTo ──────────── Maker
       ├─ BelongsTo ──────────── CarType
       ├─ BelongsTo ──────────── FuelType
       ├─ BelongsTo ──────────── City ──► State
-      ├─ HasMany ────────────── CarImages  (multi-imagen + posición)
-      └─ HasMany ────────────── CarFeatures
+      └─ HasMany ────────────── CarImages  (multi-imagen + posición)
 ```
 
 ### Tablas principales
@@ -215,10 +275,10 @@ Car ──┬─ BelongsTo ──────────── Maker
 |-------|-------------|
 | `users` | Usuarios con campo `rol` (user / admin) |
 | `cars` | Anuncios con `published_at` nullable |
-| `car_makers` | Marcas (Toyota, Ford, BMW…) |
+| `makers` | Marcas (Toyota, Ford, BMW…) |
 | `models` | Modelos por marca |
-| `car_types` | 9 tipos de carrocería |
-| `fuel_types` | 4 tipos de combustible |
+| `car_types` | Tipos de carrocería |
+| `fuel_types` | Tipos de combustible |
 | `car_images` | Imágenes ordenadas por `position` |
 | `favourite_cars` | Pivot con `notes` y `added_at` |
 | `states` / `cities` | Geografía de ubicación |
@@ -228,12 +288,6 @@ Car ──┬─ BelongsTo ──────────── Maker
 ---
 
 ## 🌐 API REST
-
-La API está disponible en `/api` y documentada con Swagger en:
-
-```
-GET /api/documentation
-```
 
 ### Endpoints públicos
 
@@ -253,11 +307,17 @@ GET /api/documentation
 |--------|----------|-------------|
 | `POST` | `/api/auth/logout` | Invalidar token |
 | `GET` | `/api/auth/me` | Usuario autenticado |
-| `GET` | `/api/user/favourites` | Coches favoritos |
+| `GET` | `/api/user/me` | Perfil con estadísticas |
+| `GET` | `/api/user/favourites` | Coches favoritos paginados |
 | `POST` | `/api/cars` | Crear anuncio |
 | `PUT` | `/api/cars/{id}` | Editar anuncio |
 | `DELETE` | `/api/cars/{id}` | Eliminar anuncio |
 | `POST` | `/api/cars/{id}/favourite` | Alternar favorito |
+| `GET` | `/api/favourites` | Listado de favoritos con pivot |
+| `GET` | `/api/favourites/{car}` | Detalle de favorito |
+| `POST` | `/api/favourites/{car}` | Añadir a favoritos |
+| `PUT` | `/api/favourites/{car}` | Actualizar nota |
+| `DELETE` | `/api/favourites/{car}` | Quitar de favoritos |
 
 ### Ejemplo de petición
 
@@ -265,12 +325,12 @@ GET /api/documentation
 # Login
 curl -X POST http://localhost:8000/api/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"user@example.com","password":"password"}'
+  -d '{"email":"admin@segunda-marcha.com","password":"password"}'
 
 # Respuesta
 {
-  "token": "1|abc123...",
-  "user": { "id": 1, "name": "...", "email": "..." }
+  "data": { "user": {...}, "token": "1|abc123..." },
+  "meta": {}
 }
 
 # Usar el token
@@ -298,10 +358,10 @@ curl http://localhost:8000/api/user/favourites \
 # Publicar coches en estado borrador
 php artisan app:publish-pending-cars
 
-# Eliminar borradores antiguos sin publicar
+# Eliminar borradores antiguos sin publicar (por defecto: >30 días)
 php artisan app:clean-old-drafts
 
-# Ver estadísticas del sistema
+# Ver estadísticas del sistema y enviar informe al admin
 php artisan app:cars-stats
 ```
 
@@ -365,39 +425,6 @@ php artisan migrate --force
 
 # Procesar colas (recomendado con Supervisor)
 php artisan queue:work --tries=3
-```
-
----
-
-## 📁 Estructura de directorios clave
-
-```
-.
-├── app/
-├── bootstrap/
-├── config/
-│   └── l5-swagger.php         # Configuración Swagger
-├── database/
-│   ├── migrations/            # 18 migraciones
-│   ├── seeders/
-│   └── factories/
-├── resources/
-│   ├── views/
-│   │   ├── livewire/          # Vistas de componentes
-│   │   ├── cars/
-│   │   ├── admin/
-│   │   └── pdfs/              # Plantillas PDF
-│   ├── css/
-│   └── js/
-├── routes/
-│   ├── api.php
-│   └── web.php
-├── tests/
-├── .env.example
-├── composer.json
-├── package.json
-├── phpunit.xml
-└── vite.config.js
 ```
 
 ---
