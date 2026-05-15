@@ -5,6 +5,8 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+// Resource de catálogo: expone solo id y name de cada tipo de carrocería.
+// Usado por CatalogController para el endpoint GET /api/catalog/car-types.
 class CarTypeResource extends JsonResource
 {
     public function toArray(Request $request): array

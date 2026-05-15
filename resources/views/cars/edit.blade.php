@@ -1,11 +1,11 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
 @section('title', 'Editar — ' . ($car->maker->name ?? '') . ' ' . ($car->model->name ?? ''))
 
 @section('header')
     <div class="flex items-center justify-between">
         <div>
-            <h1 class="text-2xl font-bold text-white">Editar anuncio</h1>
+            <h1 class="text-2xl font-bold text-white">{{ __('Edit listing') }}</h1>
             <p class="text-gray-400 text-sm mt-0.5">{{ $car->maker->name }} {{ $car->model->name }} · {{ $car->year }}</p>
         </div>
         <a href="{{ route('cars.show', $car) }}"
@@ -44,7 +44,7 @@
                 </div>
 
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-                    <h2 class="text-base font-bold text-gray-900 mb-4">Precio y contacto</h2>
+                    <h2 class="text-base font-bold text-gray-900 mb-4">{{ __('Price and contact') }}</h2>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <x-form-input name="price" label="Precio (€)" type="number" :value="old('price', $car->price)" />
                         <x-form-input name="phone" label="Teléfono" :value="old('phone', $car->phone)" />

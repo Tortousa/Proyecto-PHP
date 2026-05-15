@@ -1,12 +1,12 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
 @section('title', 'Publicar coche — Segunda Marcha')
 
 @section('header')
     <div class="flex items-center justify-between">
         <div>
-            <h1 class="text-2xl font-bold text-white">Publicar coche</h1>
-            <p class="text-gray-400 text-sm mt-0.5">Rellena los datos de tu anuncio</p>
+            <h1 class="text-2xl font-bold text-white">{{ __('Publish New Car') }}</h1>
+            <p class="text-gray-400 text-sm mt-0.5">{{ __('Fill in your listing details') }}</p>
         </div>
         <a href="{{ route('cars.index') }}"
            class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white text-sm font-semibold rounded-lg transition">
@@ -47,7 +47,7 @@
 
                 {{-- Precio y contacto --}}
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-                    <h2 class="text-base font-bold text-gray-900 mb-4">Precio y contacto</h2>
+                    <h2 class="text-base font-bold text-gray-900 mb-4">{{ __('Price and contact') }}</h2>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <x-form-input name="price" label="Precio (€)" type="number" :value="old('price')" placeholder="15000" :required="true" />
                         <x-form-input name="phone" label="Teléfono" :value="old('phone')" :required="true" />
@@ -82,7 +82,7 @@
 
                 {{-- Botón publicar --}}
                 <div class="bg-gray-900 rounded-2xl p-6">
-                    <p class="text-gray-400 text-sm mb-4">El anuncio se publicará inmediatamente y será visible para todos.</p>
+                    <p class="text-gray-400 text-sm mb-4">{{ __('The listing will be published immediately and visible to all.') }}</p>
                     <button type="submit"
                             class="w-full py-3 bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-black text-base rounded-xl transition">
                         Publicar anuncio

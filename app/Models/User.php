@@ -17,6 +17,7 @@ class User extends Authenticatable
         'name',
         'email',
         'phone',
+        'rol',
         'google_id',
         'facebook_id',
         'password',
@@ -39,11 +40,6 @@ class User extends Authenticatable
     // =====================
     // Roles
     // =====================
-    public function isAdmin(): bool
-    {
-        return $this->rol === 'admin';
-    }
-
     public function hasRole(string $rol): bool
     {
         return $this->rol === $rol;

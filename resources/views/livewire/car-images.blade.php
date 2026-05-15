@@ -1,6 +1,6 @@
-<div class="space-y-4">
+﻿<div class="space-y-4">
 
-    <h3 class="text-sm font-semibold text-gray-700">Imágenes del anuncio</h3>
+    <h3 class="text-sm font-semibold text-gray-700">{{ __('Listing images') }}</h3>
 
     {{-- Grid de imágenes actuales --}}
     @if($images->isNotEmpty())
@@ -8,11 +8,25 @@
             @foreach($images as $image)
                 <div class="relative group">
                     <img src="{{ $image->url }}" class="w-full h-28 object-cover rounded-lg border border-gray-200">
-                    <button wire:click="delete({{ $image->id }})"
-                            wire:confirm="¿Eliminar esta imagen?"
-                            class="absolute top-1 right-1 bg-red-600 text-white rounded-full w-6 h-6 text-xs hidden group-hover:flex items-center justify-center">
-                        ✕
-                    </button>
+                    {{-- Overlay de acciones: visible al hacer hover --}}
+                    <div class="absolute inset-0 hidden group-hover:flex flex-col items-end justify-between p-1 gap-1">
+                        <button wire:click="delete({{ $image->id }})"
+                                wire:confirm="¿Eliminar esta imagen?"
+                                class="bg-red-600 text-white rounded-full w-6 h-6 text-xs flex items-center justify-center">
+                            ✕
+                        </button>
+                        @if($image->position !== 0)
+                        <button wire:click="setPrimary({{ $image->id }})"
+                                title="Marcar como imagen principal"
+                                class="bg-yellow-400 text-gray-900 rounded-full w-6 h-6 text-xs flex items-center justify-center font-bold">
+                            ★
+                        </button>
+                        @else
+                        <span class="bg-yellow-400 text-gray-900 rounded-full w-6 h-6 text-xs flex items-center justify-center font-bold" title="Imagen principal">
+                            ★
+                        </span>
+                        @endif
+                    </div>
                 </div>
             @endforeach
         </div>

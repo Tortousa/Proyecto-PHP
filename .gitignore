@@ -22,3 +22,15 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+.mcp.json
+
+# Claude Code internal memory
+.claude/
+
+# Test coverage output
+coverage.txt
+coverage_new.txt
+coverage_output.txt
+
+# PDF binaries
+*.pdf

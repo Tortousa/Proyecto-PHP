@@ -43,7 +43,7 @@ test('un usuario autenticado puede añadir un coche a favoritos', function () {
                      ->postJson("/api/cars/{$this->car->id}/favourite");
 
     $response->assertStatus(200)
-             ->assertJson(['favourite' => true]);
+             ->assertJsonPath('data.favourite', true);
 
     // Comprobamos que el registro existe en la tabla pivote
     $this->assertDatabaseHas('favourite_cars', [
@@ -62,7 +62,7 @@ test('volver a llamar al toggle quita el coche de favoritos', function () {
                      ->postJson("/api/cars/{$this->car->id}/favourite");
 
     $response->assertStatus(200)
-             ->assertJson(['favourite' => false]);
+             ->assertJsonPath('data.favourite', false);
 
     $this->assertDatabaseMissing('favourite_cars', [
         'user_id' => $this->user->id,
@@ -79,7 +79,8 @@ test('el toggle guarda la nota personal en la tabla pivote', function () {
                      ]);
 
     $response->assertStatus(200)
-             ->assertJson(['favourite' => true, 'notes' => $nota]);
+             ->assertJsonPath('data.favourite', true)
+             ->assertJsonPath('data.notes', $nota);
 
     // La nota debe haberse guardado en la columna especial del pivote
     $this->assertDatabaseHas('favourite_cars', [

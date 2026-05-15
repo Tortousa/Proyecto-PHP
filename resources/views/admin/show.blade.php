@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
 @section('title', $user->name . ' — Admin')
 
@@ -20,7 +20,7 @@
             </a>
             <a href="{{ route('admin.users.index') }}"
                class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white text-sm font-semibold rounded-lg transition">
-                ← Volver
+                ← {{ __('Back') }}
             </a>
         </div>
     </div>
@@ -40,7 +40,7 @@
         </div>
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 text-center">
             <span class="inline-flex px-3 py-1.5 text-sm font-bold rounded-full
-                {{ $user->isAdmin() ? 'bg-gray-900 text-yellow-400' : 'bg-gray-100 text-gray-600' }}">
+                {{ $user->hasRole('admin') ? 'bg-gray-900 text-yellow-400' : 'bg-gray-100 text-gray-600' }}">
                 {{ $user->rol }}
             </span>
             <p class="text-sm text-gray-400 mt-2">Rol</p>
@@ -67,9 +67,9 @@
 
     {{-- Favoritos --}}
     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-        <h2 class="text-lg font-bold text-gray-900 mb-5">Coches favoritos</h2>
+        <h2 class="text-lg font-bold text-gray-900 mb-5">{{ __('Favourite cars') }}</h2>
         @if($user->favouriteCars->isEmpty())
-            <p class="text-center text-gray-400 py-8">Este usuario no tiene favoritos.</p>
+            <p class="text-center text-gray-400 py-8">{{ __('This user has no favourites.') }}</p>
         @else
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 @foreach($user->favouriteCars as $car)

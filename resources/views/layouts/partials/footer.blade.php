@@ -1,10 +1,81 @@
-<footer class="bg-white border-t border-gray-200 mt-12 py-6">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between text-sm text-gray-500">
-        <div class="flex items-center gap-2">
-            <img src="{{ asset('images/logo.png') }}" alt="Segunda Marcha" class="h-8 w-auto">
-            <span class="font-semibold text-gray-700">Segunda Marcha</span>
+<footer class="bg-gray-900 border-t border-gray-800 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        {{-- Top section --}}
+        <div class="py-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+
+            {{-- Brand --}}
+            <div class="lg:col-span-2">
+                <a href="{{ route('home') }}" class="flex items-center gap-2.5 mb-4">
+                    <img src="{{ asset('images/logo.png') }}" alt="Segunda Marcha" class="h-9 w-auto">
+                    <span class="text-white font-bold text-xl tracking-tight">
+                        Segunda<span class="text-yellow-400"> Marcha</span>
+                    </span>
+                </a>
+                <p class="text-gray-400 text-sm leading-relaxed max-w-xs">
+                    El marketplace de coches de segunda mano más completo. Compra y vende con confianza.
+                </p>
+                <div class="flex gap-3 mt-5">
+                    <a href="{{ route('register') }}"
+                       class="btn-primary-sm text-sm font-bold">
+                        Publicar gratis
+                    </a>
+                </div>
+            </div>
+
+            {{-- Links --}}
+            <div>
+                <h4 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">Plataforma</h4>
+                <ul class="space-y-2.5">
+                    <li>
+                        <a href="{{ route('home') }}"
+                           class="text-sm text-gray-400 hover:text-white transition-colors duration-150">
+                            Inicio
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('login') }}"
+                           class="text-sm text-gray-400 hover:text-white transition-colors duration-150">
+                            Iniciar sesión
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('register') }}"
+                           class="text-sm text-gray-400 hover:text-white transition-colors duration-150">
+                            Crear cuenta
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            {{-- Stats --}}
+            <div>
+                <h4 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">Plataforma</h4>
+                <ul class="space-y-3">
+                    <li class="flex items-center gap-2 text-sm text-gray-400">
+                        <span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>
+                        100% gratuito para publicar
+                    </li>
+                    <li class="flex items-center gap-2 text-sm text-gray-400">
+                        <span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>
+                        Disponible 24/7
+                    </li>
+                    <li class="flex items-center gap-2 text-sm text-gray-400">
+                        <span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span>
+                        Sin comisiones ocultas
+                    </li>
+                </ul>
+            </div>
         </div>
-        <span>Desarrollado por <strong class="text-gray-700">Daniel Tortosa Burtseva</strong></span>
-        <span>&copy; {{ date('Y') }}</span>
+
+        {{-- Bottom bar --}}
+        <div class="border-t border-gray-800 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <p class="text-xs text-gray-600">
+                &copy; {{ date('Y') }} Segunda Marcha. Todos los derechos reservados.
+            </p>
+            <p class="text-xs text-gray-600">
+                Desarrollado por <span class="text-gray-400 font-medium">Daniel Tortosa Burtseva</span>
+            </p>
+        </div>
     </div>
 </footer>

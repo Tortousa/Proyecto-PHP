@@ -15,50 +15,41 @@ use Illuminate\Support\Facades\Route;
 // ═══════════════════════════════════════════════════════════════
 // PÚBLICAS — accesibles sin autenticación
 // GET  /                   → home con listado de coches publicados
-// GET  /cars/{car}         → detalle de un coche
 // GET  /lang/{locale}      → cambia el idioma de la sesión (es / en)
 // ═══════════════════════════════════════════════════════════════
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-// whereNumber evita que /cars/create o /cars/edit coincidan con esta ruta
-Route::get('/cars/{car}', [CarController::class, 'show'])->name('cars.show')->whereNumber('car');
 Route::get('lang/{locale}', [LocaleController::class, 'switch'])->name('lang.switch');
+
+// Detalle y PDF de un coche — públicos para que cualquier visitante pueda verlos
+Route::get('/cars/{car}', [CarController::class, 'show'])->name('cars.show')->whereNumber('car');
+Route::get('/cars/{car}/pdf', [PdfController::class, 'carDetail'])->name('cars.pdf')->whereNumber('car');
 
 // ═══════════════════════════════════════════════════════════════
 // AUTENTICADO + EMAIL VERIFICADO
 // GET  /dashboard          → panel con anuncios de otros usuarios
+// GET  /profile/me         → resumen del perfil propio
+// GET  /profile            → formulario de edición del perfil
+// PATCH /profile           → guarda cambios del perfil
+// DELETE /profile          → elimina la cuenta propia
+// GET  /cars/create        → formulario nuevo anuncio
+// POST /cars               → guarda nuevo anuncio
+// GET  /cars/{car}/edit    → formulario editar anuncio (CarPolicy)
+// PUT  /cars/{car}         → guarda cambios del anuncio (CarPolicy)
+// DELETE /cars/{car}       → elimina anuncio (CarPolicy)
 // ═══════════════════════════════════════════════════════════════
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-});
 
-// ═══════════════════════════════════════════════════════════════
-// AUTENTICADO — cualquier usuario con sesión activa
-// GET    /profile/me       → resumen del perfil propio
-// GET    /profile          → formulario de edición del perfil
-// PATCH  /profile          → guarda cambios del perfil
-// DELETE /profile          → elimina la cuenta propia
-// GET    /cars/create      → formulario nuevo anuncio
-// POST   /cars             → guarda nuevo anuncio
-// GET    /cars/{car}/edit  → formulario editar anuncio (CarPolicy)
-// PUT    /cars/{car}       → guarda cambios del anuncio (CarPolicy)
-// DELETE /cars/{car}       → elimina anuncio (CarPolicy)
-// GET    /cars/{car}/pdf   → descarga ficha del coche en PDF
-// ═══════════════════════════════════════════════════════════════
-
-Route::middleware('auth')->group(function () {
     // Perfil propio del usuario
     Route::get('/profile/me', [ProfileController::class, 'me'])->name('profile.me');
     Route::get('/profile',    [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile',  [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // CRUD de anuncios — show ya está definido como ruta pública
+    // CRUD de anuncios — show y pdf son públicos (definidos arriba)
     Route::resource('cars', CarController::class)->except(['show']);
-
-    // Ficha del coche en PDF
-    Route::get('/cars/{car}/pdf', [PdfController::class, 'carDetail'])->name('cars.pdf');
 });
 
 // ═══════════════════════════════════════════════════════════════

@@ -10,12 +10,13 @@ use Illuminate\Support\Facades\Session;
 // El idioma elegido se guarda en sesión y el middleware SetLocale lo aplica en cada petición.
 class LocaleController extends Controller
 {
+    private const SUPPORTED = ['es', 'en'];
+
     public function switch(string $locale): RedirectResponse
     {
-        // Solo aceptamos los idiomas que tenemos traducidos
-        if (in_array($locale, ['en', 'es'])) {
-            Session::put('locale', $locale);
-        }
+        abort_unless(in_array($locale, self::SUPPORTED, true), 404);
+
+        Session::put('locale', $locale);
 
         return back();
     }

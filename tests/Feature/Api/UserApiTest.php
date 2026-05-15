@@ -44,7 +44,7 @@ test('/user/me incluye las estadísticas de coches y favoritos', function () {
 
     // El UserResource agrupa las estadísticas bajo la clave 'estadisticas'
     $response->assertStatus(200)
-             ->assertJsonStructure(['estadisticas' => ['total_coches', 'total_favoritos']]);
+             ->assertJsonStructure(['data' => ['estadisticas' => ['total_coches', 'total_favoritos']]]);
 });
 
 test('no se puede acceder a /user/me sin autenticación', function () {

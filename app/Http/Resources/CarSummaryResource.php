@@ -5,6 +5,9 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+// Versión compacta de CarResource para listados paginados.
+// Solo expone los campos necesarios para mostrar una tarjeta de coche en el índice.
+// CarResource (detalle) incluye además owner, descripción, todas las imágenes, etc.
 class CarSummaryResource extends JsonResource
 {
     public function toArray(Request $request): array

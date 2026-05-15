@@ -1,4 +1,4 @@
-@props([])
+﻿@props([])
 
 <!-- Formulario de filtros -->
 <form method="GET" action="{{ url()->current() }}" class="mb-6 p-4 bg-gray-50 rounded-lg">
@@ -9,12 +9,12 @@
         </div>
 
         <div>
-            <label for="min_price" class="block text-sm font-medium text-gray-700">Precio Mínimo</label>
+            <label for="min_price" class="block text-sm font-medium text-gray-700">{{ __('Min. price') }}</label>
             <input type="number" name="min_price" id="min_price" value="{{ request('min_price') }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" placeholder="0">
         </div>
 
         <div>
-            <label for="max_price" class="block text-sm font-medium text-gray-700">Precio Máximo</label>
+            <label for="max_price" class="block text-sm font-medium text-gray-700">{{ __('Max. price') }}</label>
             <input type="number" name="max_price" id="max_price" value="{{ request('max_price') }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" placeholder="100000">
         </div>
 

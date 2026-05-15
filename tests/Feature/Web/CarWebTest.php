@@ -88,6 +88,19 @@ test('el usuario puede ver el detalle de su coche', function () {
          ->assertStatus(200);
 });
 
+test('un visitante sin cuenta puede ver el detalle de un coche', function () {
+    $car = Car::factory()->create([
+        'user_id'      => $this->user->id,
+        'maker_id'     => $this->ref['maker']->id,
+        'model_id'     => $this->ref['carModel']->id,
+        'car_type_id'  => $this->ref['carType']->id,
+        'fuel_type_id' => $this->ref['fuelType']->id,
+        'city_id'      => $this->ref['city']->id,
+    ]);
+
+    $this->get(route('cars.show', $car))->assertStatus(200);
+});
+
 // ── EDIT ───────────────────────────────────────────────────────────────────────
 
 test('el dueño puede ver el formulario de edición', function () {
@@ -168,7 +181,7 @@ test('el dueño puede eliminar su coche', function () {
          ->delete(route('cars.destroy', $car))
          ->assertRedirect(route('cars.index'));
 
-    $this->assertDatabaseMissing('cars', ['id' => $car->id]);
+    $this->assertSoftDeleted('cars', ['id' => $car->id]);
 });
 
 test('otro usuario no puede eliminar el coche ajeno (403)', function () {

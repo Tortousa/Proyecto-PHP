@@ -42,8 +42,6 @@ class CarSearch extends Component
 
         $user = auth()->user();
 
-        \Log::info('BEFORE toggle', ['carId' => $carId, 'favouriteIds' => $this->favouriteIds, 'inArray' => in_array($carId, $this->favouriteIds, true)]);
-
         if (in_array($carId, $this->favouriteIds, true)) {
             $user->favouriteCars()->detach($carId);
         } else {
@@ -51,8 +49,6 @@ class CarSearch extends Component
         }
 
         $this->loadFavourites();
-
-        \Log::info('AFTER loadFavourites', ['favouriteIds' => $this->favouriteIds]);
 
         $this->dispatch('favouriteToggled');
     }

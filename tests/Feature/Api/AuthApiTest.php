@@ -25,7 +25,7 @@ test('un usuario puede registrarse correctamente', function () {
 
     // Debe devolver 201 con los campos user y token
     $response->assertStatus(201)
-             ->assertJsonStructure(['message', 'user', 'token']);
+             ->assertJsonStructure(['data' => ['user', 'token'], 'meta' => ['message']]);
 
     // El usuario debe haberse creado en la base de datos
     $this->assertDatabaseHas('users', ['email' => 'test@example.com']);
@@ -70,7 +70,7 @@ test('un usuario puede hacer login con credenciales correctas', function () {
 
     // Debe devolver 200 con user y token
     $response->assertStatus(200)
-             ->assertJsonStructure(['user', 'token']);
+             ->assertJsonStructure(['data' => ['user', 'token']]);
 });
 
 test('el login falla con credenciales incorrectas', function () {
@@ -82,7 +82,7 @@ test('el login falla con credenciales incorrectas', function () {
     ]);
 
     $response->assertStatus(401)
-             ->assertJson(['message' => 'Credenciales incorrectas.']);
+             ->assertJsonPath('meta.message', 'Credenciales incorrectas.');
 });
 
 // ── LOGOUT ─────────────────────────────────────────────────────────────────────
@@ -96,7 +96,7 @@ test('un usuario autenticado puede hacer logout', function () {
     $this->withToken($token)
          ->postJson('/api/auth/logout')
          ->assertStatus(200)
-         ->assertJson(['message' => 'Sesión cerrada correctamente.']);
+         ->assertJsonPath('meta.message', 'Sesión cerrada correctamente.');
 });
 
 test('no se puede hacer logout sin autenticación', function () {

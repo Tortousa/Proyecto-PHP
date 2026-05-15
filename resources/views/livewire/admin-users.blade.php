@@ -1,4 +1,4 @@
-<div class="space-y-4">
+﻿<div class="space-y-4">
 
     {{-- Buscador --}}
     <input wire:model.live.debounce.300ms="search"
@@ -37,7 +37,7 @@
                             </td>
                             <td class="px-4 py-2 text-gray-500">{{ $user->cars_count ?? $user->cars->count() }}</td>
                             <td class="px-4 py-2 flex gap-2">
-                                <button wire:click="save" class="px-3 py-1 bg-green-600 text-white rounded-lg text-xs font-semibold hover:bg-green-700">Guardar</button>
+                                <button wire:click="save" class="px-3 py-1 bg-green-600 text-white rounded-lg text-xs font-semibold hover:bg-green-700">{{ __('Save') }}</button>
                                 <button wire:click="cancel" class="px-3 py-1 bg-gray-200 text-gray-700 rounded-lg text-xs font-semibold hover:bg-gray-300">Cancelar</button>
                             </td>
                         </tr>

@@ -6,6 +6,9 @@ use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
 
+// Componente Livewire para el panel de administración de usuarios.
+// Permite buscar, editar nombre/email/rol y eliminar usuarios en tiempo real.
+// Solo accesible desde rutas protegidas con middleware rol:admin.
 class AdminUsers extends Component
 {
     use WithPagination;
@@ -54,6 +57,7 @@ class AdminUsers extends Component
 
     public function delete(int $userId): void
     {
+        abort_unless(auth()->user()?->hasRole('admin'), 403);
         User::findOrFail($userId)->delete();
     }
 

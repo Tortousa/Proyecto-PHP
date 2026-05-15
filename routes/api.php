@@ -38,6 +38,7 @@ Route::prefix('catalog')->group(function () {
 // PROTEGIDAS — requieren cabecera: Authorization: Bearer <token>
 // ═══════════════════════════════════════════════════════════════
 
+
 Route::middleware('auth:sanctum')->group(function () {
 
     // ── Auth ────────────────────────────────────────────────────
@@ -56,9 +57,21 @@ Route::middleware('auth:sanctum')->group(function () {
     // POST   /api/cars          → crea anuncio (cualquier usuario autenticado)
     // PUT    /api/cars/{car}    → edita anuncio (solo dueño o admin — CarPolicy)
     // DELETE /api/cars/{car}    → elimina anuncio (solo dueño o admin — CarPolicy)
-    // POST   /api/cars/{car}/favourite → añade/quita de favoritos (toggle)
+    // POST   /api/cars/{car}/favourite → toggle rápido añadir/quitar favorito
     Route::post('/cars',                 [CarController::class, 'store']);
     Route::put('/cars/{car}',            [CarController::class, 'update']);
     Route::delete('/cars/{car}',         [CarController::class, 'destroy']);
     Route::post('/cars/{car}/favourite', [FavouriteController::class, 'toggle']);
+
+    // ── Favoritos (CRUD completo) ────────────────────────────────
+    // GET    /api/favourites          → lista todos los favoritos del usuario
+    // GET    /api/favourites/{car}    → detalle de un favorito con datos del pivote
+    // POST   /api/favourites/{car}    → añade un coche a favoritos (con nota opcional)
+    // PUT    /api/favourites/{car}    → actualiza la nota del favorito
+    // DELETE /api/favourites/{car}    → elimina un coche de favoritos
+    Route::get('/favourites',           [FavouriteController::class, 'index']);
+    Route::get('/favourites/{car}',     [FavouriteController::class, 'show']);
+    Route::post('/favourites/{car}',    [FavouriteController::class, 'store']);
+    Route::put('/favourites/{car}',     [FavouriteController::class, 'update']);
+    Route::delete('/favourites/{car}',  [FavouriteController::class, 'destroy']);
 });

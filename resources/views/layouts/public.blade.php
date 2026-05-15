@@ -3,14 +3,15 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title', 'Segunda Marcha')</title>
+    <meta name="theme-color" content="#111827">
+    <title>@yield('title', 'Segunda Marcha — Compra y vende tu coche')</title>
     <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700,800,900&display=swap" rel="stylesheet" />
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
+    @stack('head')
 </head>
-{{-- flex flex-col min-h-screen empuja el footer al final aunque la página tenga poco contenido --}}
-<body class="font-sans antialiased bg-gray-50 flex flex-col min-h-screen">
+<body class="font-sans antialiased bg-gray-950 text-gray-900 flex flex-col min-h-screen">
 
     @include('layouts.partials.navbar')
 
@@ -22,5 +23,6 @@
     @include('layouts.partials.footer')
 
     @livewireScripts
+    @stack('scripts')
 </body>
 </html>

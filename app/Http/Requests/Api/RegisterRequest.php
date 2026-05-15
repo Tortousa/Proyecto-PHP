@@ -5,6 +5,8 @@ namespace App\Http\Requests\Api;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
 
+// Valida el body del endpoint POST /api/auth/register.
+// Password::defaults() aplica las reglas mínimas configuradas en AppServiceProvider (longitud, etc.).
 class RegisterRequest extends FormRequest
 {
     public function authorize(): bool

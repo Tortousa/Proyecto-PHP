@@ -1,11 +1,11 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
 @section('title', 'Configuración — Segunda Marcha')
 
 @section('header')
     <div>
         <h1 class="text-2xl font-bold text-white">Configuración</h1>
-        <p class="text-gray-400 text-sm mt-0.5">Gestiona tu cuenta y contraseña</p>
+        <p class="text-gray-400 text-sm mt-0.5">{{ __('Manage account and password') }}</p>
     </div>
 @endsection
 
@@ -25,7 +25,7 @@
 
         <div class="bg-red-50 border border-red-100 rounded-2xl p-6">
             <h2 class="text-base font-bold text-red-700 mb-1">Zona de peligro</h2>
-            <p class="text-sm text-red-500 mb-5">Esta acción es irreversible. Se eliminarán todos tus datos y anuncios.</p>
+            <p class="text-sm text-red-500 mb-5">{{ __('This action is irreversible. All your data and listings will be deleted.') }}</p>
             @include('profile.partials.delete-user-form')
         </div>
 

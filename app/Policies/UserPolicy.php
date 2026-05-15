@@ -31,4 +31,22 @@ class UserPolicy
     {
         return $user->hasRole('admin') || $user->id === $model->id;
     }
+
+    // Solo el admin puede crear cuentas desde el panel
+    public function create(User $user): bool
+    {
+        return $user->hasRole('admin');
+    }
+
+    // Nadie puede restaurar usuarios eliminados
+    public function restore(User $user, User $model): bool
+    {
+        return false;
+    }
+
+    // Nadie puede borrar permanentemente usuarios
+    public function forceDelete(User $user, User $model): bool
+    {
+        return false;
+    }
 }

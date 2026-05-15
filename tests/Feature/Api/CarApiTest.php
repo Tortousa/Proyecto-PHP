@@ -192,9 +192,9 @@ test('el dueño puede eliminar su propio coche', function () {
     $this->actingAs($this->owner)
          ->deleteJson("/api/cars/{$car->id}")
          ->assertStatus(200)
-         ->assertJson(['message' => 'Coche eliminado correctamente.']);
+         ->assertJsonPath('meta.message', 'Coche eliminado correctamente.');
 
-    $this->assertDatabaseMissing('cars', ['id' => $car->id]);
+    $this->assertSoftDeleted('cars', ['id' => $car->id]);
 });
 
 test('un usuario no puede eliminar el coche de otro usuario', function () {

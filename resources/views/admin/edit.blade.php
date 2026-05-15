@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
 @section('title', 'Editar usuario — ' . $user->name)
 
@@ -10,7 +10,7 @@
         </div>
         <a href="{{ route('admin.users.show', $user) }}"
            class="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white text-sm font-semibold rounded-lg transition">
-            ← Volver
+            ← {{ __('Back') }}
         </a>
     </div>
 @endsection

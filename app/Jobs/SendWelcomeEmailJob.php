@@ -4,18 +4,14 @@ namespace App\Jobs;
 
 use App\Mail\WelcomeMail;
 use App\Models\User;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Mail;
 
-// Job que envía el email de bienvenida en segundo plano (cola).
-// Al implementar ShouldQueue Laravel lo pone en la cola en lugar de ejecutarlo de inmediato.
-class SendWelcomeEmailJob implements ShouldQueue
+// Job síncrono: se ejecuta inmediatamente en la misma petición HTTP (sin cola).
+// Contrasta con SendCarPublishedEmailJob, que implementa ShouldQueue y se delega al worker.
+class SendWelcomeEmailJob
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
 
     public function __construct(public User $user) {}
 

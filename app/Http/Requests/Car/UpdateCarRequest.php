@@ -5,21 +5,15 @@ namespace App\Http\Requests\Car;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
+// Valida los datos del formulario de edición de un anuncio de coche.
+// La autorización (solo dueño o admin) se aplica en el controlador via CarPolicy::update().
 class UpdateCarRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [

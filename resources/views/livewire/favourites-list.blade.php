@@ -1,4 +1,4 @@
-{{-- Vista del componente FavouritesList.
+﻿{{-- Vista del componente FavouritesList.
      wire:click llama al método PHP del componente sin recargar la página.
      wire:model vincula el textarea con la propiedad $editingNote en tiempo real. --}}
 <div>
@@ -7,7 +7,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto mb-3 text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
             </svg>
-            <p class="font-semibold">Aún no tienes favoritos</p>
+            <p class="font-semibold">{{ __('You have no favourites yet') }}</p>
             <a href="{{ route('home') }}" class="mt-2 inline-block text-yellow-500 hover:text-yellow-600 text-sm font-semibold">
                 Explorar coches →
             </a>

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="utf-8">
@@ -63,7 +63,7 @@
         <tr><td>VIN</td><td>{{ $car->vin }}</td></tr>
     </table>
 
-    <h2>Precio y contacto</h2>
+    <h2>{{ __('Price and contact') }}</h2>
     <table>
         <tr><td>Precio</td><td>{{ number_format($car->price, 0, ',', '.') }} €</td></tr>
         <tr><td>Ciudad</td><td>{{ $car->city->name }}</td></tr>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Events\CarPublished;
 use App\Http\Controllers\Controller;
 use App\Models\Car;
 use App\Models\CarType;
@@ -25,8 +26,6 @@ class CarController extends Controller
     // El admin ve todos; un usuario normal solo ve los suyos.
     public function index(Request $request)
     {
-        $this->authorize('viewAny', Car::class);
-
         $query = Car::query();
 
         if (!Auth::user()->hasRole('admin')) {
@@ -66,11 +65,9 @@ class CarController extends Controller
         return view('cars.create', compact('makers', 'models', 'carTypes', 'fuelTypes', 'cities'));
     }
 
-    // Detalle de un coche — cualquier usuario autenticado puede ver cualquier anuncio
+    // Detalle de un coche — accesible sin autenticación
     public function show(Car $car)
     {
-        $this->authorize('view', $car);
-
         return view('cars.show', compact('car'));
     }
 
@@ -85,6 +82,8 @@ class CarController extends Controller
         if ($request->hasFile('images')) {
             $this->imageService->save($car, (array) $request->file('images'));
         }
+
+        CarPublished::dispatch($car);
 
         return redirect()->route('cars.index')->with('success', __('Coche creado con éxito'));
     }

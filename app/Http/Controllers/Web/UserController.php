@@ -15,8 +15,6 @@ class UserController extends Controller
     // Lista todos los usuarios paginados con conteo de coches
     public function index(): View
     {
-        $this->authorize('viewAny', User::class);
-
         $users = User::withCount('cars')->latest()->paginate(15);
 
         return view('admin.index', compact('users'));
