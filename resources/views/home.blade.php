@@ -23,77 +23,98 @@
     </div>
 
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-24">
-        <div class="max-w-3xl">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 
-            {{-- Badge --}}
-            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-yellow-400/30
-                        bg-yellow-400/10 text-yellow-400 text-xs font-semibold mb-6 animate-fade-up">
-                <span class="w-1.5 h-1.5 rounded-full bg-yellow-400 animate-pulse"></span>
-                {{ __('#1 marketplace for used cars') }}
-            </div>
+            {{-- LEFT: texto --}}
+            <div>
+                {{-- Badge --}}
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-yellow-400/30
+                            bg-yellow-400/10 text-yellow-400 text-xs font-semibold mb-6 animate-fade-up">
+                    <span class="w-1.5 h-1.5 rounded-full bg-yellow-400 animate-pulse"></span>
+                    {{ __('marketplace for used cars') }}
+                </div>
 
-            <h1 class="text-5xl sm:text-6xl lg:text-7xl font-black text-white leading-[1.05] tracking-tight
-                       text-balance animate-fade-up" style="animation-delay:0.05s">
-                {{ __('Find your') }}<br>
-                <span class="text-gradient-yellow">{{ __('perfect car.') }}</span>
-            </h1>
+                <h1 class="text-5xl sm:text-6xl lg:text-7xl font-black text-white leading-[1.05] tracking-tight
+                           text-balance animate-fade-up" style="animation-delay:0.05s">
+                    {{ __('Find your') }}<br>
+                    <span class="text-gradient-yellow">{{ __('perfect car.') }}</span>
+                </h1>
 
-            <p class="mt-6 text-lg sm:text-xl text-gray-400 leading-relaxed max-w-xl animate-fade-up"
-               style="animation-delay:0.1s">
-                {{ __('Thousands of verified vehicles. Transparent pricing. No hidden fees. The smartest way to buy or sell your car.') }}
-            </p>
+                <p class="mt-6 text-lg sm:text-xl text-gray-400 leading-relaxed max-w-xl animate-fade-up"
+                   style="animation-delay:0.1s">
+                    {{ __('Thousands of verified vehicles. Transparent pricing. No hidden fees. The smartest way to buy or sell your car.') }}
+                </p>
 
-            {{-- Hero CTAs --}}
-            <div class="flex flex-wrap gap-3 mt-10 animate-fade-up" style="animation-delay:0.15s">
-                @guest
-                    <a href="{{ route('register') }}"
-                       class="btn-primary px-7 py-3.5 text-base font-bold animate-pulse-yellow">
-                        {{ __('Post free listing') }}
-                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                {{-- Hero CTAs --}}
+                <div class="flex flex-wrap gap-3 mt-10 animate-fade-up" style="animation-delay:0.15s">
+                    @guest
+                        <a href="{{ route('register') }}"
+                           class="btn-primary px-7 py-3.5 text-base font-bold animate-pulse-yellow">
+                            {{ __('Post free listing') }}
+                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                            </svg>
+                        </a>
+                        <a href="{{ route('login') }}"
+                           class="btn px-7 py-3.5 text-base font-semibold text-gray-300 hover:text-white
+                                  border border-gray-700 hover:border-gray-500 rounded-[10px]
+                                  transition-all duration-200">
+                            {{ __('Log in') }}
+                        </a>
+                    @else
+                        <a href="{{ route('cars.create') }}"
+                           class="btn-primary px-7 py-3.5 text-base font-bold">
+                            {{ __('+ List my car') }}
+                        </a>
+                        <a href="{{ route('dashboard') }}"
+                           class="btn px-7 py-3.5 text-base font-semibold text-gray-300 hover:text-white
+                                  border border-gray-700 hover:border-gray-500 rounded-[10px]
+                                  transition-all duration-200">
+                            {{ __('Go to dashboard') }}
+                        </a>
+                    @endguest
+                </div>
+
+                {{-- Trust signals --}}
+                <div class="flex flex-wrap items-center gap-6 mt-12 animate-fade-up" style="animation-delay:0.2s">
+                    <div class="flex items-center gap-2 text-gray-500 text-sm">
+                        <svg class="h-4 w-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                         </svg>
-                    </a>
-                    <a href="{{ route('login') }}"
-                       class="btn px-7 py-3.5 text-base font-semibold text-gray-300 hover:text-white
-                              border border-gray-700 hover:border-gray-500 rounded-[10px]
-                              transition-all duration-200">
-                        {{ __('Log in') }}
-                    </a>
-                @else
-                    <a href="{{ route('cars.create') }}"
-                       class="btn-primary px-7 py-3.5 text-base font-bold">
-                        {{ __('+ List my car') }}
-                    </a>
-                    <a href="{{ route('dashboard') }}"
-                       class="btn px-7 py-3.5 text-base font-semibold text-gray-300 hover:text-white
-                              border border-gray-700 hover:border-gray-500 rounded-[10px]
-                              transition-all duration-200">
-                        {{ __('Go to dashboard') }}
-                    </a>
-                @endguest
+                        {{ __('No commissions') }}
+                    </div>
+                    <div class="flex items-center gap-2 text-gray-500 text-sm">
+                        <svg class="h-4 w-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                        </svg>
+                        {{ __('100% free') }}
+                    </div>
+                    <div class="flex items-center gap-2 text-gray-500 text-sm">
+                        <svg class="h-4 w-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                        </svg>
+                        {{ __('Available 24/7') }}
+                    </div>
+                </div>
             </div>
 
-            {{-- Trust signals --}}
-            <div class="flex flex-wrap items-center gap-6 mt-12 animate-fade-up" style="animation-delay:0.2s">
-                <div class="flex items-center gap-2 text-gray-500 text-sm">
-                    <svg class="h-4 w-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                    </svg>
-                    {{ __('No commissions') }}
-                </div>
-                <div class="flex items-center gap-2 text-gray-500 text-sm">
-                    <svg class="h-4 w-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                    </svg>
-                    {{ __('100% free') }}
-                </div>
-                <div class="flex items-center gap-2 text-gray-500 text-sm">
-                    <svg class="h-4 w-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-                    </svg>
-                    {{ __('Available 24/7') }}
+            {{-- RIGHT: logo grande --}}
+            <div class="hidden lg:flex items-center justify-center animate-fade-up" style="animation-delay:0.15s">
+                <div class="relative flex items-center justify-center">
+                    {{-- Glow radial detrás del logo --}}
+                    <div class="absolute w-[420px] h-[420px] rounded-full blur-[80px] opacity-25 pointer-events-none"
+                         style="background: radial-gradient(circle, #FACC15 0%, #F59E0B 40%, transparent 70%)"></div>
+                    {{-- Segundo halo más suave --}}
+                    <div class="absolute w-[300px] h-[300px] rounded-full blur-[40px] opacity-15 pointer-events-none"
+                         style="background: radial-gradient(circle, #ffffff 0%, transparent 70%)"></div>
+                    {{-- Logo flotando --}}
+                    <img src="{{ asset('images/logo.png') }}" alt="Segunda Marcha"
+                         class="relative z-10 w-72 xl:w-96 animate-float
+                                drop-shadow-[0_20px_48px_rgba(250,204,21,0.25)]
+                                select-none">
                 </div>
             </div>
+
         </div>
     </div>
 
@@ -110,7 +131,7 @@
 ══════════════════════════════════════════════════════════════ --}}
 <section class="bg-yellow-400 py-6">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex flex-wrap justify-center gap-12 text-gray-900 text-center">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 text-gray-900 text-center">
             <div>
                 <p class="text-4xl font-black tabular-nums">+500</p>
                 <p class="text-sm font-semibold mt-0.5 opacity-75">{{ __('Active listings') }}</p>

@@ -119,6 +119,7 @@
   "My dashboard": "Mi panel",
 
   "#1 marketplace for used cars": "Marketplace #1 de coches de segunda mano",
+  "marketplace for used cars": "Marketplace de coches de segunda mano",
   "Find your": "Encuentra tu",
   "perfect car.": "coche perfecto.",
   "Thousands of verified vehicles. Transparent pricing. No hidden fees. The smartest way to buy or sell your car.": "Miles de vehículos verificados. Precios transparentes. Sin comisiones ocultas. La forma más inteligente de comprar o vender tu coche.",
@@ -143,5 +144,16 @@
   "Ready to sell": "¿Listo para vender",
   "your car today?": "tu coche hoy?",
   "Thousands of buyers are waiting. Post for free in under 5 minutes.": "Miles de compradores esperan. Publica gratis en menos de 5 minutos.",
-  "Get started — it's free": "Empezar ahora — es gratis"
+  "Get started — it's free": "Empezar ahora — es gratis",
+
+  "View": "Ver",
+  "Filters": "Filtros",
+  "Clear filters": "Limpiar filtros",
+  "Platform": "Plataforma",
+  "Why us?": "¿Por qué nosotros?",
+  "100% free to post": "100% gratuito para publicar",
+  "The most complete used car marketplace. Buy and sell with confidence.": "El marketplace de coches de segunda mano más completo. Compra y vende con confianza.",
+  "Post for free": "Publicar gratis",
+  "All rights reserved.": "Todos los derechos reservados.",
+  "Developed by": "Desarrollado por"
 }

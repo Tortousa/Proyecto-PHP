@@ -42,6 +42,7 @@ export default {
                 'slide-down':    'slideDown 0.2s ease both',
                 'pulse-yellow':  'pulseYellow 2s ease-in-out infinite',
                 'shimmer':       'shimmer 1.6s linear infinite',
+                'float':         'float 5s ease-in-out infinite',
             },
             keyframes: {
                 fadeUp: {
@@ -63,6 +64,10 @@ export default {
                 shimmer: {
                     '0%':   { backgroundPosition: '-400px 0' },
                     '100%': { backgroundPosition: '400px 0' },
+                },
+                float: {
+                    '0%, 100%': { transform: 'translateY(0px)' },
+                    '50%':      { transform: 'translateY(-14px)' },
                 },
             },
             transitionTimingFunction: {

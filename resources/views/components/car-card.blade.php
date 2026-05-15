@@ -52,7 +52,7 @@
                 </span>
                 <span class="text-xs text-gray-400 group-hover:text-yellow-500
                              transition-colors duration-150 font-medium flex items-center gap-0.5">
-                    Ver
+                    {{ __('View') }}
                     <svg class="h-3 w-3 transition-transform duration-150 group-hover:translate-x-0.5"
                          fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
