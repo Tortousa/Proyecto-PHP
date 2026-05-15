@@ -93,13 +93,14 @@ app/
 ├── Http/
 │   ├── Controllers/
 │   │   ├── Api/               # AuthController, CarController, FavouriteController...
+│   │   ├── Concerns/          # ApiResponses (trait formato {data, meta})
 │   │   └── Web/               # HomeController, CarController, AdminUserController...
-│   ├── Livewire/              # CarSearch, CarImages, FavouriteButton, AdminUsers...
 │   ├── Middleware/            # RoleMiddleware, SetLocale
 │   ├── Requests/              # StoreCarRequest, RegisterRequest...
 │   └── Resources/             # CarResource, UserResource, CarSummaryResource...
 ├── Jobs/                      # SendWelcomeEmailJob, SendCarPublishedEmailJob
 ├── Listeners/                 # SendWelcomeMail, NotifyCarPublished
+├── Livewire/                  # CarSearch, CarImages, FavouriteButton, AdminUsers...
 ├── Mail/                      # WelcomeMail, CarPublishedMail, StatsReportMail
 ├── Models/                    # Car, User, Maker, CarModel, CarType, FuelType...
 ├── Policies/                  # CarPolicy, UserPolicy
@@ -174,9 +175,9 @@ php artisan migrate --seed
 
 Esto crea todas las tablas y las rellena con datos de prueba (marcas, modelos, ciudades, un usuario admin y varios coches de ejemplo).
 
-> **Credenciales del admin por defecto:**  
-> Email: `admin@segunda-marcha.com`  
-> Contraseña: `password`
+> **Credenciales por defecto tras el seed:**  
+> Admin → `admin@example.com` / `password`  
+> Usuario → `test@example.com` / `password`
 
 ### 7. Crear el enlace de almacenamiento público
 
