@@ -65,4 +65,4 @@ services:
 databases:
   - name: proyecto-php-db
     plan: free
-    databaseName: proyecto_php
+    databaseName: proyecto_jyoh
