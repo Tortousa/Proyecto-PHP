@@ -27,6 +27,10 @@ WORKDIR /var/www/html
 
 COPY . .
 
+# Ensure writable directories exist before Composer runs artisan scripts
+RUN mkdir -p bootstrap/cache storage/framework/cache storage/framework/sessions storage/framework/views \
+    && chmod -R 777 bootstrap/cache storage
+
 # Production PHP dependencies only
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
