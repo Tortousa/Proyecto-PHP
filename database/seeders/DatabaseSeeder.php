@@ -62,7 +62,8 @@ class DatabaseSeeder extends Seeder
                 ->has(
                     City::factory()
                         ->count(count($cities))
-                        ->sequence(...array_map(fn($city) => ['name' => $city], $cities))
+                        ->sequence(...array_map(fn($city) => ['name' => $city], $cities)),
+                    'cities'
                 )
                 ->create();
         }
@@ -78,7 +79,8 @@ class DatabaseSeeder extends Seeder
                 ->has(
                     CarModel::factory()
                         ->count(count($models))
-                        ->sequence(...array_map(fn($model) => ['name' => $model], $models))
+                        ->sequence(...array_map(fn($model) => ['name' => $model], $models)),
+                    'models'
                 )
                 ->create();
         }
