@@ -99,8 +99,7 @@ class DatabaseSeeder extends Seeder
                             ->count(5)
                             ->sequence(fn(Sequence $sequence) => ['position' => $sequence->index % 5 + 1]),
                         'images'
-                    )
-                    ->hasFeatures(),
+                    ),
                 'cars'
             )
             ->create(['rol' => 'user']);
