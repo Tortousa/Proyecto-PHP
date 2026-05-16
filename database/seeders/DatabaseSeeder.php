@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
 
     public function run(): void
     {
-        if (CarType::count() > 0) {
+        if (Car::count() > 0) {
             return;
         }
 
@@ -101,7 +101,7 @@ class DatabaseSeeder extends Seeder
                         'images'
                     )
                     ->hasFeatures(),
-                'favouriteCars'
+                'cars'
             )
             ->create(['rol' => 'user']);
 
