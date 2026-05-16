@@ -17,18 +17,18 @@ class CarFeaturesFactory extends Factory
     public function definition(): array
     {
         return [
-            'abs' => fake()->boolean(),
-            'air_conditioning' => fake()->boolean(),
-            'power_windows' => fake()->boolean(),
-            'power_door_locks' => fake()->boolean(),
-            'cruise_control' => fake()->boolean(),
-            'bluetooth_connectivity' => fake()->boolean(),
-            'remote_start' => fake()->boolean(),
-            'gps_navigation' => fake()->boolean(),
-            'heated_seats' => fake()->boolean(),
-            'climate_control' => fake()->boolean(),
-            'rear_parking_sensors' => fake()->boolean(),
-            'leather_seats' => fake()->boolean(),
+            'abs' => $this->faker->boolean(),
+            'air_conditioning' => $this->faker->boolean(),
+            'power_windows' => $this->faker->boolean(),
+            'power_door_locks' => $this->faker->boolean(),
+            'cruise_control' => $this->faker->boolean(),
+            'bluetooth_connectivity' => $this->faker->boolean(),
+            'remote_start' => $this->faker->boolean(),
+            'gps_navigation' => $this->faker->boolean(),
+            'heated_seats' => $this->faker->boolean(),
+            'climate_control' => $this->faker->boolean(),
+            'rear_parking_sensors' => $this->faker->boolean(),
+            'leather_seats' => $this->faker->boolean(),
         ];
     }
 }
