@@ -16,10 +16,11 @@ class CarSearch extends Component
 {
     use WithPagination;
 
-    public string $search      = '';
-    public string $fuelType    = '';
-    public string $sortBy      = 'latest';
-    public array  $favouriteIds = [];
+    public string $search        = '';
+    public string $fuelType      = '';
+    public string $sortBy        = 'latest';
+    public bool   $filtersOpen   = false;
+    public array  $favouriteIds  = [];
 
     public function mount(): void
     {

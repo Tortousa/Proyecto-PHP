@@ -1,8 +1,7 @@
-﻿<div>
+<div>
 
 {{-- ── FILTROS ──────────────────────────────────────────────────────────────── --}}
-<section class="bg-white border-b border-gray-100 py-4 sticky top-16 z-40 shadow-sm"
-         x-data="{ open: false }">
+<section class="bg-white border-b border-gray-200 py-4 sticky top-16 z-40 shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {{-- Fila superior: búsqueda + botón filtros (móvil) + contador --}}
@@ -20,13 +19,13 @@
                        placeholder="{{ __('Search make or model...') }}"
                        class="pl-9 pr-4 py-2.5 border border-gray-200 rounded-xl text-sm w-full sm:w-56
                               focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 outline-none
-                              transition-all duration-200 bg-gray-50 focus:bg-white">
+                              transition-all duration-200 bg-gray-50 text-gray-900 placeholder-gray-400 focus:bg-white">
             </div>
 
             {{-- Filtros desktop: siempre visibles --}}
             <div class="hidden sm:flex items-center gap-3">
                 <select wire:model.live="fuelType"
-                        class="px-4 py-2.5 border border-gray-200 rounded-xl text-sm bg-gray-50
+                        class="px-4 py-2.5 border border-gray-200 rounded-xl text-sm bg-gray-50 text-gray-900
                                focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 outline-none
                                transition-all duration-200 cursor-pointer focus:bg-white">
                     <option value="">{{ __('All fuel types') }}</option>
@@ -36,7 +35,7 @@
                 </select>
 
                 <select wire:model.live="sortBy"
-                        class="px-4 py-2.5 border border-gray-200 rounded-xl text-sm bg-gray-50
+                        class="px-4 py-2.5 border border-gray-200 rounded-xl text-sm bg-gray-50 text-gray-900
                                focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400 outline-none
                                transition-all duration-200 cursor-pointer focus:bg-white">
                     <option value="latest">{{ __('Latest') }}</option>
@@ -57,10 +56,10 @@
             </div>
 
             {{-- Botón filtros móvil --}}
-            <button @click="open = !open"
+            <button wire:click="$toggle('filtersOpen')"
                     class="sm:hidden flex items-center gap-1.5 px-3 py-2.5 rounded-xl border text-sm font-medium
-                           transition-all duration-150"
-                    :class="open ? 'border-yellow-400 bg-yellow-50 text-gray-900' : 'border-gray-200 bg-gray-50 text-gray-600'">
+                           transition-all duration-150
+                           {{ $filtersOpen ? 'border-yellow-400 bg-yellow-50 text-gray-900' : 'border-gray-200 bg-gray-50 text-gray-600' }}">
                 <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-.293.707L13 13.414V19a1 1 0 01-.553.894l-4 2A1 1 0 017 21v-7.586L3.293 6.707A1 1 0 013 6V4z"/>
@@ -81,23 +80,16 @@
 
             {{-- Contador --}}
             <div class="ml-auto sm:ml-0 text-sm text-gray-400 font-medium" wire:loading.remove>
-                <span class="tabular-nums font-semibold text-gray-700">{{ $cars->total() }}</span>
+                <span class="tabular-nums font-semibold text-gray-900">{{ $cars->total() }}</span>
                 {{ $cars->total() === 1 ? __('result') : __('results') }}
             </div>
         </div>
 
         {{-- Panel filtros móvil colapsable --}}
-        <div x-show="open"
-             x-transition:enter="transition ease-out duration-150"
-             x-transition:enter-start="opacity-0 -translate-y-1"
-             x-transition:enter-end="opacity-100 translate-y-0"
-             x-transition:leave="transition ease-in duration-100"
-             x-transition:leave-start="opacity-100 translate-y-0"
-             x-transition:leave-end="opacity-0 -translate-y-1"
-             class="sm:hidden mt-3 pt-3 border-t border-gray-100 flex flex-col gap-2.5"
-             style="display:none">
+        <div class="sm:hidden mt-3 pt-3 border-t border-gray-100 flex-col gap-2.5
+                    {{ $filtersOpen ? 'flex' : 'hidden' }}">
             <select wire:model.live="fuelType"
-                    class="px-4 py-2.5 border border-gray-200 rounded-xl text-sm bg-gray-50
+                    class="px-4 py-2.5 border border-gray-200 rounded-xl text-sm bg-gray-50 text-gray-900
                            focus:ring-2 focus:ring-yellow-400 outline-none w-full cursor-pointer">
                 <option value="">{{ __('All fuel types') }}</option>
                 @foreach($fuelTypes as $ft)
@@ -106,7 +98,7 @@
             </select>
 
             <select wire:model.live="sortBy"
-                    class="px-4 py-2.5 border border-gray-200 rounded-xl text-sm bg-gray-50
+                    class="px-4 py-2.5 border border-gray-200 rounded-xl text-sm bg-gray-50 text-gray-900
                            focus:ring-2 focus:ring-yellow-400 outline-none w-full cursor-pointer">
                 <option value="latest">{{ __('Latest') }}</option>
                 <option value="price_asc">{{ __('Price: low to high') }}</option>
@@ -114,8 +106,7 @@
             </select>
 
             @if($search || $fuelType || $sortBy !== 'latest')
-                <button wire:click="$set('search', ''); $set('fuelType', ''); $set('sortBy', 'latest')"
-                        @click="open = false"
+                <button wire:click="$set('search', ''); $set('fuelType', ''); $set('sortBy', 'latest'); $set('filtersOpen', false)"
                         class="w-full px-3 py-2.5 text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-100
                                rounded-xl transition-all duration-150 flex items-center justify-center gap-1.5 border border-gray-200">
                     <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -135,12 +126,12 @@
     @if($cars->isEmpty())
         <div class="text-center py-24">
             <div class="w-20 h-20 bg-gray-100 rounded-2xl flex items-center justify-center mx-auto mb-5">
-                <svg class="h-10 w-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="h-10 w-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                           d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                 </svg>
             </div>
-            <p class="text-xl font-bold text-gray-700">{{ __('No results') }}</p>
+            <p class="text-xl font-bold text-gray-900">{{ __('No results') }}</p>
             <p class="text-gray-400 text-sm mt-1">{{ __('Try a different search or change the filters') }}</p>
             <button wire:click="$set('search', '')"
                     class="mt-5 btn-primary-sm font-semibold">
@@ -233,7 +224,7 @@
 
         {{-- Pagination --}}
         <div class="mt-10 flex justify-center">
-            {{ $cars->links() }}
+            {{ $cars->links('livewire::tailwind', ['scrollTo' => false]) }}
         </div>
     @endif
 </section>

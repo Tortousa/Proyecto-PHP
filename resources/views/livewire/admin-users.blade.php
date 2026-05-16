@@ -1,4 +1,4 @@
-﻿<div class="space-y-4">
+<div class="space-y-4">
 
     {{-- Buscador --}}
     <input wire:model.live.debounce.300ms="search"

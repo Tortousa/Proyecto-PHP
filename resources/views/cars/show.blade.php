@@ -100,7 +100,7 @@
     <div class="space-y-5">
 
         {{-- Precio card --}}
-        <div class="bg-gray-900 rounded-2xl p-6 border border-gray-800">
+        <div class="card p-6">
             <p class="text-gray-500 text-xs uppercase tracking-wider font-semibold mb-1">{{ __('Sale price') }}</p>
             <p class="price-tag-lg">{{ number_format($car->price, 0, ',', '.') }} €</p>
 

@@ -1,4 +1,4 @@
-﻿<div class="space-y-4">
+<div class="space-y-4">
 
     <h3 class="text-sm font-semibold text-gray-700">{{ __('Listing images') }}</h3>
 

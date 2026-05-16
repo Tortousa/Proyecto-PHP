@@ -1,4 +1,4 @@
-﻿{{-- Vista del componente FavouritesList.
+{{-- Vista del componente FavouritesList.
      wire:click llama al método PHP del componente sin recargar la página.
      wire:model vincula el textarea con la propiedad $editingNote en tiempo real. --}}
 <div>

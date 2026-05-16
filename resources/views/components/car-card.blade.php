@@ -46,7 +46,7 @@
                     <span class="truncate">{{ $car->city->name }}</span>
                 @endif
             </p>
-            <div class="flex items-center justify-between mt-3.5 pt-3.5 border-t border-gray-50">
+            <div class="flex items-center justify-between mt-3.5 pt-3.5 border-t border-gray-100">
                 <span class="price-tag text-xl">
                     {{ number_format($car->price, 0, ',', '.') }} €
                 </span>
