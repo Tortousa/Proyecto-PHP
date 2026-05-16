@@ -12,10 +12,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+        $middleware->trustProxies(at: '*');
         $middleware->web(append: [
             \App\Http\Middleware\SetLocale::class,
         ]);
-        // Middleware personalizado para verificar roles en rutas protegidas//
         $middleware->alias([
             'rol' => \App\Http\Middleware\RoleMiddleware::class,
         ]);
