@@ -31,15 +31,18 @@
             <div class="flex items-center gap-3">
 
                 {{-- Language switcher --}}
-                <div class="hidden sm:flex items-center rounded-lg border border-white/20 overflow-hidden">
+                <div class="hidden sm:flex items-center rounded-lg overflow-hidden border transition-all duration-300"
+                     :class="scrolled ? 'border-white/20' : 'border-gray-400'">
                     <a href="{{ route('lang.switch', 'es') }}"
                        class="px-2.5 py-1.5 text-xs font-semibold transition-all duration-150
-                              {{ app()->getLocale() === 'es' ? 'bg-yellow-400 text-gray-900' : 'text-gray-400 hover:text-white hover:bg-white/10' }}">
+                              {{ app()->getLocale() === 'es' ? 'bg-yellow-400 text-gray-900' : 'hover:bg-white/10' }}"
+                       :class="scrolled ? '{{ app()->getLocale() === 'es' ? '' : 'text-gray-400 hover:text-white' }}' : '{{ app()->getLocale() === 'es' ? '' : 'text-gray-700 hover:text-gray-900' }}'">
                         ES
                     </a>
                     <a href="{{ route('lang.switch', 'en') }}"
                        class="px-2.5 py-1.5 text-xs font-semibold transition-all duration-150
-                              {{ app()->getLocale() === 'en' ? 'bg-yellow-400 text-gray-900' : 'text-gray-400 hover:text-white hover:bg-white/10' }}">
+                              {{ app()->getLocale() === 'en' ? 'bg-yellow-400 text-gray-900' : 'hover:bg-white/10' }}"
+                       :class="scrolled ? '{{ app()->getLocale() === 'en' ? '' : 'text-gray-400 hover:text-white' }}' : '{{ app()->getLocale() === 'en' ? '' : 'text-gray-700 hover:text-gray-900' }}'">
                         EN
                     </a>
                 </div>
@@ -93,6 +96,20 @@
            class="block px-3 py-2.5 rounded-lg text-sm font-medium text-gray-200 hover:text-white hover:bg-white/10">
             {{ __('Catalog') }}
         </a>
+        {{-- Language switcher móvil --}}
+        <div class="flex items-center gap-2 px-3 py-2">
+            <a href="{{ route('lang.switch', 'es') }}"
+               class="px-3 py-1.5 text-xs font-semibold rounded-lg transition-all duration-150
+                      {{ app()->getLocale() === 'es' ? 'bg-yellow-400 text-gray-900' : 'text-gray-300 hover:text-white hover:bg-white/10' }}">
+                ES
+            </a>
+            <a href="{{ route('lang.switch', 'en') }}"
+               class="px-3 py-1.5 text-xs font-semibold rounded-lg transition-all duration-150
+                      {{ app()->getLocale() === 'en' ? 'bg-yellow-400 text-gray-900' : 'text-gray-300 hover:text-white hover:bg-white/10' }}">
+                EN
+            </a>
+        </div>
+
         @auth
             <a href="{{ route('dashboard') }}"
                class="block px-3 py-2.5 rounded-lg text-sm font-medium text-gray-200 hover:text-white hover:bg-white/10">
