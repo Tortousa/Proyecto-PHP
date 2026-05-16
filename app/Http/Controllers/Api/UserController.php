@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Concerns\ApiResponses;
 use App\Http\Resources\CarSummaryResource;
 use App\Http\Resources\UserResource;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -13,6 +14,14 @@ class UserController extends Controller
 {
     // Importa el método $this->success() que envuelve toda respuesta en {data, meta}
     use ApiResponses;
+
+    // Solo accesible con middleware rol:admin — devuelve todos los usuarios paginados
+    public function index(): JsonResponse
+    {
+        $users = User::withCount(['cars', 'favouriteCars'])->paginate(15);
+
+        return $this->success(UserResource::collection($users));
+    }
 
     public function me(Request $request): JsonResponse
     {

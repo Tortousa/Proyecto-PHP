@@ -39,6 +39,15 @@ Route::prefix('catalog')->group(function () {
 // ═══════════════════════════════════════════════════════════════
 
 
+// ═══════════════════════════════════════════════════════════════
+// SOLO ADMINISTRADOR — requiere token + rol admin
+// GET /api/admin/users → listado paginado de todos los usuarios
+// ═══════════════════════════════════════════════════════════════
+
+Route::middleware(['auth:sanctum', 'rol:admin'])->prefix('admin')->group(function () {
+    Route::get('/users', [UserController::class, 'index']); // GET /api/admin/users
+});
+
 Route::middleware('auth:sanctum')->group(function () {
 
     // ── Auth ────────────────────────────────────────────────────

@@ -67,17 +67,23 @@
             {{-- Sidebar fotos + acción --}}
             <div class="space-y-6">
 
-                {{-- Fotos --}}
+                {{-- Fotos con drag & drop --}}
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
                     <h2 class="text-base font-bold text-gray-900 mb-1">Fotos <span class="text-gray-400 font-normal text-sm">(opcional)</span></h2>
                     <p class="text-xs text-gray-400 mb-3">jpg, png, webp · máx 5 MB por imagen</p>
-                    <label class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-200 rounded-xl cursor-pointer hover:border-yellow-400 hover:bg-yellow-50 transition">
+
+                    <div id="dropzone"
+                         class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed border-gray-200 rounded-xl cursor-pointer hover:border-yellow-400 hover:bg-yellow-50 transition"
+                         onclick="document.getElementById('imageInput').click()">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-300 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                         </svg>
-                        <span class="text-sm text-gray-400">Haz clic para subir imágenes</span>
-                        <input type="file" name="images[]" accept="image/*" multiple class="hidden">
-                    </label>
+                        <span id="dropzone-label" class="text-sm text-gray-400">Arrastra imágenes aquí o haz clic</span>
+                    </div>
+                    <input type="file" id="imageInput" name="images[]" accept="image/*" multiple class="hidden">
+
+                    {{-- Miniaturas de preview --}}
+                    <div id="preview-grid" class="grid grid-cols-3 gap-2 mt-3"></div>
                 </div>
 
                 {{-- Botón publicar --}}
@@ -94,3 +100,55 @@
     </form>
 
 @endsection
+
+@push('scripts')
+<script>
+    // Referencias al área de drop, el input oculto, el texto de estado y la cuadrícula de previews
+    const dropzone    = document.getElementById('dropzone');
+    const input       = document.getElementById('imageInput');
+    const label       = document.getElementById('dropzone-label');
+    const previewGrid = document.getElementById('preview-grid');
+
+    // Muestra miniaturas de los archivos seleccionados y actualiza el texto del dropzone
+    function renderPreviews(files) {
+        previewGrid.innerHTML = '';
+        label.textContent = files.length + ' imagen' + (files.length > 1 ? 'es' : '') + ' seleccionada' + (files.length > 1 ? 's' : '');
+        [...files].forEach(file => {
+            const reader = new FileReader();
+            // FileReader lee el archivo como Data URL para mostrarlo sin subirlo aún
+            reader.onload = e => {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.className = 'w-full h-20 object-cover rounded-lg border border-gray-200';
+                previewGrid.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    // Cuando el usuario selecciona archivos con el explorador de archivos
+    input.addEventListener('change', () => renderPreviews(input.files));
+
+    // Resalta el dropzone mientras el usuario arrastra un archivo encima
+    dropzone.addEventListener('dragover', e => {
+        e.preventDefault(); // necesario para que el evento 'drop' funcione
+        dropzone.classList.add('border-yellow-400', 'bg-yellow-50');
+    });
+
+    // Quita el resaltado cuando el archivo sale del área sin soltarlo
+    dropzone.addEventListener('dragleave', () => {
+        dropzone.classList.remove('border-yellow-400', 'bg-yellow-50');
+    });
+
+    // Cuando el usuario suelta los archivos en el dropzone
+    dropzone.addEventListener('drop', e => {
+        e.preventDefault();
+        dropzone.classList.remove('border-yellow-400', 'bg-yellow-50');
+        // DataTransfer permite asignar los archivos arrastrados al input de forma programática
+        const dt = new DataTransfer();
+        [...e.dataTransfer.files].forEach(f => dt.items.add(f));
+        input.files = dt.files;
+        renderPreviews(input.files);
+    });
+</script>
+@endpush
