@@ -12,7 +12,7 @@
     @livewireStyles
     @stack('head')
 </head>
-<body class="font-sans antialiased bg-gray-50 flex flex-col min-h-screen">
+<body class="font-sans antialiased bg-gray-900 flex flex-col min-h-screen">
 
     @include('layouts.navigation')
 
@@ -24,7 +24,7 @@
         </header>
     @endif
 
-    <main class="flex-1 py-8">
+    <main class="flex-1 bg-gray-50 pt-5 pb-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             @include('layouts.partials.flash')
             @yield('content')
