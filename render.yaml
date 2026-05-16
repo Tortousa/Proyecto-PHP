@@ -1,0 +1,68 @@
+services:
+  - type: web
+    name: proyecto-php
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    port: 80
+    envVars:
+      - key: APP_NAME
+        value: ProyectoPHP
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_KEY
+        generateValue: true
+      - key: APP_URL
+        value: https://proyecto-php.onrender.com
+
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        fromDatabase:
+          name: proyecto-php-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: proyecto-php-db
+          property: port
+      - key: DB_DATABASE
+        fromDatabase:
+          name: proyecto-php-db
+          property: database
+      - key: DB_USERNAME
+        fromDatabase:
+          name: proyecto-php-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: proyecto-php-db
+          property: password
+
+      - key: SESSION_DRIVER
+        value: database
+      - key: SESSION_LIFETIME
+        value: 120
+      - key: SESSION_SECURE_COOKIE
+        value: true
+
+      - key: CACHE_STORE
+        value: database
+
+      - key: QUEUE_CONNECTION
+        value: sync
+
+      - key: FILESYSTEM_DISK
+        value: public
+
+      - key: LOG_CHANNEL
+        value: stderr
+      - key: LOG_LEVEL
+        value: error
+
+databases:
+  - name: proyecto-php-db
+    plan: free
+    databaseName: proyecto_php
