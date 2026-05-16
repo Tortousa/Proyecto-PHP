@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y \
 RUN docker-php-ext-install pdo pdo_pgsql mbstring zip exif pcntl bcmath gd opcache
 
 # Install Composer 2
-COPY --from=composer:2 /usr/local/bin/composer /usr/local/bin/composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Point Apache document root to Laravel's public/ folder
 RUN sed -ri -e 's!/var/www/html!/var/www/html/public!g' \
