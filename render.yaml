@@ -16,7 +16,7 @@ services:
       - key: APP_KEY
         generateValue: true
       - key: APP_URL
-        value: https://proyecto-php.onrender.com
+        value: https://proyecto-php-suk0.onrender.com
 
       - key: DB_CONNECTION
         value: pgsql
