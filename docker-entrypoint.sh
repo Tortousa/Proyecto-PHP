@@ -6,11 +6,8 @@ php artisan config:cache
 php artisan route:cache
 php artisan view:cache
 
-# Run pending migrations automatically on every deploy
-php artisan migrate --force --no-interaction
-
-# Seed initial data only if DB is empty
-php artisan db:seed --force --no-interaction
+# Recrear BD limpia y resembrar en cada deploy
+php artisan migrate:fresh --seed --force --no-interaction
 
 
 # Create the public/storage symlink (safe to run multiple times)
