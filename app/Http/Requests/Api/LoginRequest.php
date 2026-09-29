@@ -20,4 +20,19 @@ class LoginRequest extends FormRequest
             'password' => ['required', 'string'],
         ];
     }
+
+    // Describe cada campo del body para la documentación generada por Scribe.
+    public function bodyParameters(): array
+    {
+        return [
+            'email' => [
+                'description' => 'Correo electrónico de la cuenta.',
+                'example'     => 'iker@example.com',
+            ],
+            'password' => [
+                'description' => 'Contraseña de la cuenta.',
+                'example'     => 'Password123',
+            ],
+        ];
+    }
 }

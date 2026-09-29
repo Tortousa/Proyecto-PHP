@@ -24,6 +24,7 @@ class CarModel extends Model
 
     public function cars(): HasMany
     {
-        return $this->hasMany(Car::class);
+        // La columna en la tabla cars es model_id, no la convención car_model_id
+        return $this->hasMany(Car::class, 'model_id');
     }
 }

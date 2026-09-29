@@ -23,4 +23,31 @@ class RegisterRequest extends FormRequest
             'password' => ['required', 'confirmed', Password::defaults()],
         ];
     }
+
+    // Describe cada campo del body para la documentación generada por Scribe.
+    public function bodyParameters(): array
+    {
+        return [
+            'name' => [
+                'description' => 'Nombre completo del usuario.',
+                'example'     => 'Iker Martínez',
+            ],
+            'email' => [
+                'description' => 'Correo electrónico único. Se guarda en minúsculas.',
+                'example'     => 'iker@example.com',
+            ],
+            'phone' => [
+                'description' => 'Teléfono de contacto del usuario.',
+                'example'     => '600123456',
+            ],
+            'password' => [
+                'description' => 'Contraseña. Debe cumplir las reglas mínimas de seguridad.',
+                'example'     => 'Password123',
+            ],
+            'password_confirmation' => [
+                'description' => 'Confirmación de la contraseña. Debe coincidir con password.',
+                'example'     => 'Password123',
+            ],
+        ];
+    }
 }

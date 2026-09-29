@@ -39,7 +39,43 @@ beforeEach(function () {
 
 // ── CarPolicy ─────────────────────────────────────────────────────────────────
 
+test('CarPolicy viewAny y view — cualquier usuario autenticado puede listar y ver', function () {
+    $policy = new CarPolicy();
+
+    expect($policy->viewAny($this->user))->toBeTrue()
+        ->and($policy->create($this->user))->toBeTrue()
+        ->and($policy->view($this->user, $this->car))->toBeTrue();
+});
+
+test('CarPolicy update/delete — el dueño y el admin sí; un tercero no', function () {
+    $policy = new CarPolicy();
+
+    expect($policy->update($this->user, $this->car))->toBeTrue()   // dueño
+        ->and($policy->update($this->admin, $this->car))->toBeTrue()  // admin
+        ->and($policy->update($this->other, $this->car))->toBeFalse() // tercero
+        ->and($policy->delete($this->user, $this->car))->toBeTrue()
+        ->and($policy->delete($this->admin, $this->car))->toBeTrue()
+        ->and($policy->delete($this->other, $this->car))->toBeFalse();
+});
+
 // ── UserPolicy ────────────────────────────────────────────────────────────────
+
+test('UserPolicy viewAny — solo el admin puede listar usuarios', function () {
+    $policy = new UserPolicy();
+
+    expect($policy->viewAny($this->admin))->toBeTrue()
+        ->and($policy->viewAny($this->user))->toBeFalse();
+});
+
+test('UserPolicy view/update/delete — el admin a todos; el usuario solo a sí mismo', function () {
+    $policy = new UserPolicy();
+
+    expect($policy->view($this->admin, $this->user))->toBeTrue()
+        ->and($policy->view($this->user, $this->user))->toBeTrue()
+        ->and($policy->view($this->user, $this->other))->toBeFalse()
+        ->and($policy->update($this->user, $this->other))->toBeFalse()
+        ->and($policy->delete($this->user, $this->other))->toBeFalse();
+});
 
 test('UserPolicy create — solo el admin puede crear usuarios', function () {
     $policy = new UserPolicy();
